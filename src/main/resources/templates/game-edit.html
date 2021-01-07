@@ -1,0 +1,47 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/floating-labels.css}">
+</head>
+
+<body>
+<form class="form-signin" name="request" action="/game/title" method="post">
+
+    <h1 class="h3 mb-3 font-weight-normal">Editer un jeu</h1>
+
+    <input type="hidden" name="id" th:value="${game.id}"/>
+
+    <label for="inputTitle">Titre :</label>
+    <div class="form-label-group">
+    <input type="text" id="inputTitle" class="form-control" name="title" th:value="${game.title}" placeholder="Titre" required autofocus/>
+    </div>
+
+    <label for="inputNote">Note /20 :</label>
+    <div class="form-label-group">
+    <input type="number" id="inputNote" class="form-control" name="note" th:value="${game.note}" placeholder="Note" required autofocus/>
+    </div>
+
+    <label for="inputCommentaire">Commentaire :</label>
+    <div class="form-label-group">
+        <input type="text" id="inputCommentaire" class="form-control" name="commentaire" th:value="${game.commentaire}" placeholder="Commentaire" required autofocus/>
+    </div>
+
+    <div class="form-label-group">
+        <select class="form-select" aria-label="Default select example" name="genre" >
+            <option selected th:value="${game.genre}">Ouvrir pour selectionner un genre pour votre jeu</option>
+            <option value="AVENTURE">AVENTURE</option>
+            <option value="ACTION">ACTION</option>
+            <option value="STRATEGIE">STRATEGIE</option>
+            <option value="RPG">RPG</option>
+            <option value="SIMULATION">SIMULATION</option>
+            <option value="MULTIJOUEUR">MULTIJOUEUR</option>
+            <option value="SOLO">SOLO</option>
+        </select>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Enregister</button>
+</form>
+</body>
+</html>

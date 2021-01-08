@@ -2,9 +2,7 @@ package fr.greta.java.videogames.facade;
 
 import fr.greta.java.videogames.domain.GameGenre;
 
-
-
-public class GameDTO {
+public class GameDTO2 {
 
     private int id;
     private String title;
@@ -13,8 +11,8 @@ public class GameDTO {
     private GameGenre genre;
     private String request;
 
-    //------------------------------------
 
+    //-----------------------------
 
     public int getId() {
         return id;

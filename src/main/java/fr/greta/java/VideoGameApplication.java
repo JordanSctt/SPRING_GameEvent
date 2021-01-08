@@ -16,7 +16,7 @@ public class VideoGameApplication {
 		SpringApplication.run(VideoGameApplication.class, args);
 	}
 
-	/*
+
 	@Autowired
 	private GameRepository repository;
 
@@ -77,6 +77,6 @@ public class VideoGameApplication {
 		game1.setGenre(genre);
 		repository.save(game1);
 	}
-	*/
+
 
 }

@@ -16,7 +16,7 @@
 <table class="table">
     <thead>
     <tr>
-        <th scope="col">Titre</th>
+        <th scope="col" ><a th:href="'/game/list-page-et-trie'">Titre</a></th>
         <th scope="col">Note</th>
         <th scope="col">Commentaire</th>
         <th scope="col">Genre</th>
@@ -41,49 +41,25 @@
         <ul class="pagination justify-content-center">
 
             <li th:class="${currentPage eq 0}? 'page-item disabled' : 'page-item' "> <!--class="page-item" -->
-                <a class="page-link" th:if="${currentPage > 0}" th:href="'/game/list-page/' + ${currentPage - 1} + '/'" >Previous</a> <!-- th:if="${currentPage eq 0}" -->
+                <a class="page-link" th:if="${currentPage > 0}" th:href="'/game/page?page=' + ${currentPage - 1} + '/'" >Previous</a> <!-- th:if="${currentPage eq 0}" -->
             </li>
-            <li th:class="${currentPage eq 0}? 'page-item active' : 'page-item' "><a class="page-link" th:href="'/game/list-page/0/'">1</a></li>
-            <li th:class="${currentPage eq 1}? 'page-item active' : 'page-item' "><a class="page-link" th:href="'/game/list-page/1/'">2</a></li>
-            <li th:class="${currentPage eq 2}? 'page-item active' : 'page-item' "><a class="page-link" th:href="'/game/list-page/2/'" >3</a></li>
-            <li th:class="${currentPage eq 3}? 'page-item active' : 'page-item' "><a class="page-link" th:href="'/game/list-page/3/'">4</a></li>
-            <li th:class="${currentPage eq 4}? 'page-item active' : 'page-item' "><a class="page-link" th:href="'/game/list-page/4/'">5</a></li>
-            <li th:class="${currentPage eq 5}? 'page-item active' : 'page-item' "><a class="page-link" th:href="'/game/list-page/5/'">6</a></li>
+            <li th:class="${currentPage eq 0}? 'page-item active' : 'page-item' "><a class="page-link" th:href="'/game/page/0/'">1</a></li>
+            <li th:class="${currentPage eq 1}? 'page-item active' : 'page-item' "><a class="page-link" th:href="'/game/page/1/'">2</a></li>
+            <li th:class="${currentPage eq 2}? 'page-item active' : 'page-item' "><a class="page-link" th:href="'/game/page/2/'" >3</a></li>
+            <li th:class="${currentPage eq 3}? 'page-item active' : 'page-item' "><a class="page-link" th:href="'/game/page/3/'">4</a></li>
+            <li th:class="${currentPage eq 4}? 'page-item active' : 'page-item' "><a class="page-link" th:href="'/game/page/4/'">5</a></li>
+            <li th:class="${currentPage eq 5}? 'page-item active' : 'page-item' "><a class="page-link" th:href="'/game/page/5/'">6</a></li>
             <li class="page-item">
-                <a class="page-link" th:href="'/game/list-page/' + ${currentPage + 1} + '/'">Next</a>
+                <a class="page-link" th:href="'/game/page?page=' + ${currentPage + 1} + '/'">Next</a>
             </li>
         </ul>
     </nav>
 
     <h2 class="h3 mb-3 font-weight-normal justify-content-center">Rechercher un jeu :</h2>
 
-    <form class="form-signin" name="request" action="/game/title" method="post">
+    <form class="form-signin" name="request" action="/game/search" method="post">
     <div class="form-label-group">
         <input type="text"  class="form-control" name="request" required autofocus/>
-    </div>
-    <div class="form-check">
-        <input class="form-check-input" type="checkbox" name="title" value="title" id="flexCheck1">
-        <label class="form-check-label" for="flexCheck1">
-            Titre
-        </label>
-    </div>
-    <div class="form-check">
-        <input class="form-check-input" type="checkbox" name="note" value="note" id="flexCheck2">
-        <label class="form-check-label" for="flexCheck2">
-            Note
-        </label>
-    </div>
-    <div class="form-check">
-        <input class="form-check-input" type="checkbox" name="commentaire" value="commentaire" id="flexCheck3">
-        <label class="form-check-label" for="flexCheck3">
-            Commentaire
-        </label>
-    </div>
-    <div class="form-check">
-        <input class="form-check-input" type="checkbox" name="genre" value="genre" id="flexCheck4">
-        <label class="form-check-label" for="flexCheck4">
-            Genre
-        </label>
     </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Rehcercher</button>
     </form>

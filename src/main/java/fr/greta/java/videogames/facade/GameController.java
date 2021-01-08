@@ -28,25 +28,21 @@ public class GameController {
     @Autowired
     private GameRepository gameRepository;
 
-    /*
+
     @GetMapping("/list")
     public ModelAndView list() {
-        ModelAndView modelAndView = new ModelAndView("game-list");
-        modelAndView.addObject("games", wrapperDTO.fromModels(gameService.findAll()));
-        return modelAndView;
+        return findAllWithPaging(0);
     }
-     */
 
-    @GetMapping("/list-page/{page}/")
-    public ModelAndView findAllWithPaging(@PathVariable(value = "page") int page) {
+
+    @GetMapping("/page")
+    public ModelAndView findAllWithPaging(@RequestParam int page) {
         Sort sort = Sort.by(Sort.Direction.ASC, "title");
         CustomPage<GameModel> all = gameService.findAll(page, sort);
 
         ModelAndView modelAndView = new ModelAndView("game-list");
         modelAndView.addObject("games", wrapperDTO.fromModels(all.getElements()));
         modelAndView.addObject("paging", (page+1) + " / " + all.getTotalPage());
-
-
         modelAndView.addObject("currentPage", page);
         return modelAndView;
     }
@@ -79,19 +75,30 @@ public class GameController {
         return findAllWithPaging(1);
     }
 
-    @GetMapping("/spec/{title}/")
-    public ModelAndView search(@PathVariable(value = "title") String title, int page) {
-        Specification<GameEntity> spec = titleIs(title);
 
+    @PostMapping("/search")
+    public ModelAndView search(@ModelAttribute("request") GameDTO2 request, @PathVariable(value = "page") int page) {
+
+        Specification<GameEntity> spec = titleIs(request.getRequest());
         Sort sort = Sort.by(Sort.Direction.ASC, "title");
-        Page<GameEntity> all = gameRepository.findAll(spec, PageRequest.of(page, 10, sort));
 
-        //findAll(spec, PageRequest.of(page, 10, sort));
+        //Page<GameEntity> all = gameRepository.findAll(spec, PageRequest.of(page, 20), sort);
 
         ModelAndView modelAndView = new ModelAndView("game-list");
-        modelAndView.addObject("games", all.getContent());
-        modelAndView.addObject("paging", (page+1) + " / " + all.getTotalPages());
+        //modelAndView.addObject("games" + all.getContent());
         return modelAndView;
+
+        /*
+        Specification<GameEntity> spec = titleIs(request);
+
+        Sort sort = Sort.by(Sort.Direction.ASC, "title");
+        CustomPage<GameEntity> all = (CustomPage<GameEntity>)gameRepository.findAll(spec, PageRequest.of(page, 10, sort));
+
+        ModelAndView modelAndView = new ModelAndView("game-list");
+        modelAndView.addObject("games", all.getElements());
+        modelAndView.addObject("paging", (page+1) + " / " + all.getTotalPage());
+        return modelAndView;
+       */
     }
 
     public Specification<GameEntity> titleIs(String value) {
@@ -99,8 +106,8 @@ public class GameController {
     }
 
     /*
-    public Specification<UserEntity> emailIs(String value) {
-        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("email"), value);
+    public Specification<UserEntity> noteIs(String value) {
+        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("note"), value);
     }
     */
 

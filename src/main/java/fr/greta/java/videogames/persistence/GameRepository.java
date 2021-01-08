@@ -16,11 +16,7 @@ import java.util.List;
 
 public interface GameRepository extends JpaRepository<GameEntity, Integer>, JpaSpecificationExecutor<GameEntity> {
 
-    /*
-    public default CustomPage<GameModel> findAllByTitle(int page, Sort sort, Specification spec) {
-        return findByFirstName();
-    }
-    */
+
     @Query("SELECT g  FROM GameEntity g WHERE g.title LIKE :title")
     List<GameEntity> findByLikeFirstName(String title);
 

@@ -23,14 +23,11 @@ public class GameService {
     @Autowired
     private GameModelWrapper wrapperModel;
 
+
     public CustomPage<GameModel> findAll(int page, Sort sort) {
         return wrapperModel.fromPage(repository.findAll(PageRequest.of(page, 10, sort)));
     }
-    /*
-    public CustomPage<GameModel> findAllByTitle(int page, Sort sort, Specification spec) {
-        return wrapperModel.fromPage(repository.findAllByTitle(PageRequest.of(page, 10, sort, spec)));
-    }
-    */
+
     public GameModel findById(int id) {
         return repository.findById(id)
                 .map(entity -> wrapperModel.fromEntity(entity))

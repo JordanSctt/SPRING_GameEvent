@@ -1,9 +1,11 @@
 package fr.greta.java.videogames.facade;
 
 
-import fr.greta.java.videogames.domain.CustomPage;
+import fr.greta.java.videogames.CustomList;
+import fr.greta.java.videogames.domain.GameColonne;
 import fr.greta.java.videogames.domain.GameModel;
 import fr.greta.java.videogames.domain.GameService;
+import fr.greta.java.videogames.domain.SearchGame;
 import fr.greta.java.videogames.persistence.GameEntity;
 import fr.greta.java.videogames.persistence.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,26 +30,45 @@ public class GameController {
     @Autowired
     private GameRepository gameRepository;
 
-    /*
+
     @GetMapping("/list")
     public ModelAndView list() {
-        ModelAndView modelAndView = new ModelAndView("game-list");
-        modelAndView.addObject("games", wrapperDTO.fromModels(gameService.findAll()));
-        return modelAndView;
+        return findAllWithPaging(0);
     }
-     */
 
-    @GetMapping("/list-page/{page}/")
-    public ModelAndView findAllWithPaging(@PathVariable(value = "page") int page) {
-        Sort sort = Sort.by(Sort.Direction.ASC, "title");
-        CustomPage<GameModel> all = gameService.findAll(page, sort);
+    @GetMapping("/tri")
+    public ModelAndView pageTri(@RequestParam String colonne) {
+        gameService.setColonne(colonne);
+        return findAllWithPaging(0);
+    }
+
+    @PostMapping("/search")
+    public ModelAndView search(@ModelAttribute("request") SearchRequestDTO request) {
+        gameService.cleanColonnes();
+
+        SearchGame search = new SearchGame();
+        search.setTexte(request.getTexte());
+        if(request.isRechercheParTitre()) {
+            search.getColonnes().add(GameColonne.TITRE);
+        }
+        if(request.isRechercheParCommentaire()) {
+            search.getColonnes().add(GameColonne.COMMENTAIRE);
+        }
+        if (request.isRechercheParGenre()) {
+            search.getColonnes().add(GameColonne.GENRE);
+        }
+        gameService.setShearch(search);
+        return findAllWithPaging(0);
+    }
+
+    @GetMapping("/page")
+    public ModelAndView findAllWithPaging(@RequestParam int page) {
+        CustomList<GameModel, Integer> all = gameService.findAllByPage(page);
 
         ModelAndView modelAndView = new ModelAndView("game-list");
-        modelAndView.addObject("games", wrapperDTO.fromModels(all.getElements()));
-        modelAndView.addObject("paging", (page+1) + " / " + all.getTotalPage());
-
-
+        modelAndView.addObject("games", wrapperDTO.fromModels(all.getList()));
         modelAndView.addObject("currentPage", page);
+        modelAndView.addObject("totalPage", all.getValue());
         return modelAndView;
     }
 
@@ -79,7 +100,7 @@ public class GameController {
         return findAllWithPaging(1);
     }
 
-    @GetMapping("/spec/{title}/")
+    @GetMapping("/search")
     public ModelAndView search(@PathVariable(value = "title") String title, int page) {
         Specification<GameEntity> spec = titleIs(title);
 

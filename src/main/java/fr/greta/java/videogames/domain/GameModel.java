@@ -3,7 +3,7 @@ package fr.greta.java.videogames.domain;
 public class GameModel {
 
     private int id;
-    private String title;
+    private String titre;
     private int note;
     private String commentaire;
     private GameGenre genre;
@@ -19,12 +19,12 @@ public class GameModel {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getTitre() {
+        return titre;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setTitre(String titre) {
+        this.titre = titre;
     }
 
     public int getNote() {

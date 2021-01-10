@@ -5,10 +5,11 @@
     <meta charset="utf-8" />
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/css/floating-labels.css}">
+
 </head>
 
 <body>
-<form class="form-signin" name="request" action="/game/title" method="post">
+<form class="form-signin" name="request" action="/game/edit" method="post">
 
     <h1 class="h3 mb-3 font-weight-normal">Editer un jeu</h1>
 
@@ -16,7 +17,7 @@
 
     <label for="inputTitle">Titre :</label>
     <div class="form-label-group">
-    <input type="text" id="inputTitle" class="form-control" name="title" th:value="${game.title}" placeholder="Titre" required autofocus/>
+    <input type="text" id="inputTitle" class="form-control" name="titre" th:value="${game.titre}" placeholder="Titre" required autofocus/>
     </div>
 
     <label for="inputNote">Note /20 :</label>

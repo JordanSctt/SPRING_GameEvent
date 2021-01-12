@@ -107,7 +107,6 @@ public class GameController {
         Sort sort = Sort.by(Sort.Direction.ASC, "title");
         Page<GameEntity> all = gameRepository.findAll(spec, PageRequest.of(page, 10, sort));
 
-        //findAll(spec, PageRequest.of(page, 10, sort));
 
         ModelAndView modelAndView = new ModelAndView("game-list");
         modelAndView.addObject("games", all.getContent());
@@ -118,11 +117,4 @@ public class GameController {
     public Specification<GameEntity> titleIs(String value) {
         return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.get("title"), "%" + value + "%");
     }
-
-    /*
-    public Specification<UserEntity> emailIs(String value) {
-        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("email"), value);
-    }
-    */
-
 }

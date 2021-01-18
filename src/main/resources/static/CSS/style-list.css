@@ -1,6 +1,5 @@
 
 body {
-    margin-top: 10px;
     margin-bottom: 10px;
     background-color: #A9A9A9; 
 }
@@ -15,9 +14,17 @@ body {
 .formulaire {
     margin-left: 200px;
     margin-right: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
 }
 
-.btn.btn-lg.btn-primary.btn-block {
+.btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     width: 140px;
 }
+

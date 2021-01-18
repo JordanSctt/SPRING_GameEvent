@@ -13,6 +13,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -69,17 +72,22 @@ public class GameController {
         modelAndView.addObject("games", wrapperDTO.fromModels(all.getList()));
         modelAndView.addObject("currentPage", page);
         modelAndView.addObject("totalPage", all.getValue());
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName();
+        modelAndView.addObject("nameUserConnected", name);
+
         return modelAndView;
     }
 
-    @GetMapping("/edit")
+    @GetMapping("/admin/edit")
     public ModelAndView displayFormEdit(@RequestParam int id) {
         ModelAndView modelAndView = new ModelAndView("game-edit");
         modelAndView.addObject("game", wrapperDTO.fromModel(gameService.findById(id)));
         return modelAndView;
     }
 
-    @PostMapping("/edit")
+    @PostMapping("/admin/edit")
     public ModelAndView edit(@ModelAttribute("request") GameDTO request) {
         gameService.save(wrapperDTO.toModel(request));
         return findAllWithPaging(1);
@@ -92,11 +100,11 @@ public class GameController {
         return modelAndView;
     }
 
-    @GetMapping("/delete")
+    @GetMapping("/admin/delete")
     public ModelAndView delete(@RequestParam int id) {
-        GameModel game = new GameModel();
+        GameDTO game = new GameDTO();
         game.setId(id);
-        gameService.delete(game);
+        gameService.delete(wrapperDTO.toModel(game));
         return findAllWithPaging(1);
     }
 
@@ -105,9 +113,7 @@ public class GameController {
         Specification<GameEntity> spec = titleIs(title);
 
         Sort sort = Sort.by(Sort.Direction.ASC, "title");
-        Page<GameEntity> all = gameRepository.findAll(spec, PageRequest.of(page, 10, sort));
-
-        //findAll(spec, PageRequest.of(page, 10, sort));
+        Page<fr.greta.java.videogames.persistence.GameEntity> all = gameRepository.findAll(spec, PageRequest.of(page, 10, sort));
 
         ModelAndView modelAndView = new ModelAndView("game-list");
         modelAndView.addObject("games", all.getContent());
@@ -118,11 +124,4 @@ public class GameController {
     public Specification<GameEntity> titleIs(String value) {
         return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.get("title"), "%" + value + "%");
     }
-
-    /*
-    public Specification<UserEntity> emailIs(String value) {
-        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("email"), value);
-    }
-    */
-
 }

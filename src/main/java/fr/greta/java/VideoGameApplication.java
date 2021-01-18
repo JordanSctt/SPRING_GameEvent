@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
 public class VideoGameApplication {
@@ -19,6 +21,7 @@ public class VideoGameApplication {
 	/*
 	@Autowired
 	private GameRepository repository;
+
 
 	@EventListener(ApplicationReadyEvent.class)
 	public void doSomethingAfterStartup() {
@@ -71,12 +74,14 @@ public class VideoGameApplication {
 
 	private void save(String title, int note, String commentaire, GameGenre genre) {
 		GameEntity game1 = new GameEntity();
-		game1.setTitle(title);
+		game1.setTitre(title);
 		game1.setNote(note);
 		game1.setCommentaire(commentaire);
 		game1.setGenre(genre);
 		repository.save(game1);
 	}
-	*/
+
+	 */
+
 
 }

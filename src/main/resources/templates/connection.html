@@ -1,0 +1,44 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<!doctype html>
+<html lang="fr">
+
+  <head>
+    <meta charset="utf-8">
+    <title>Page de connection</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/floating-labels.css}">
+  </head>
+
+  <body>
+  <!-- FORMULAIRE : -->
+
+    <form class="form-signin" name="request" action="/login" method="POST">
+  <div class="text-center mb-4">
+
+    <h1 class="h3 mb-3 font-weight-normal">Se connecter à Game Event</h1>
+    <p>Veuillez saisir votre login ainsi que votre mot de passe afin d'accéder aux fonctionnalités</p>
+  </div>
+
+  <div class="form-label-group">
+    <input type="text" id="inputLogin" class="form-control" name="login" placeholder="login" required autofocus>
+    <label for="inputLogin">login :</label>
+  </div>
+
+  <div class="form-label-group">
+    <input type="password" id="inputPassword" class="form-control" name="password" placeholder="mot de passe" required>
+    <label for="inputPassword">Mot de passe :</label>
+  </div>
+
+  <!-- <div class="checkbox mb-3">
+    <label>
+      <input type="checkbox" value="remember-me"> Remember me
+    </label>
+  </div>  -->
+
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Se connecter</button>
+  <p class="mt-5 mb-3 text-muted text-center">&copy; Family Bros since 1998</p>
+</form>
+</body>
+</html>

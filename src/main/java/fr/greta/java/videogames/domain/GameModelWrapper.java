@@ -1,7 +1,6 @@
 package fr.greta.java.videogames.domain;
 
 import fr.greta.java.videogames.CustomList;
-import fr.greta.java.videogames.persistence.GameEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
@@ -9,14 +8,14 @@ import org.springframework.stereotype.Component;
 public class GameModelWrapper {
 
 
-    public CustomList<GameModel, Integer> fromEntities(Page<GameEntity> entities) {
+    public CustomList<GameModel, Integer> fromEntities(Page<fr.greta.java.videogames.persistence.GameEntity> entities) {
         CustomList<GameModel, Integer> page = new CustomList<>();
         page.setValue(entities.getTotalPages());
         entities.forEach(entity -> page.getList().add(fromEntity(entity)));
         return page;
     }
 
-    public GameModel fromEntity(GameEntity entity) {
+    public GameModel fromEntity(fr.greta.java.videogames.persistence.GameEntity entity) {
         GameModel model = new GameModel();
         model.setId(entity.getId());
         model.setTitre(entity.getTitre());
@@ -26,8 +25,8 @@ public class GameModelWrapper {
         return model;
     }
 
-    public GameEntity toEntity(GameModel model) {
-        GameEntity entity = new GameEntity();
+    public fr.greta.java.videogames.persistence.GameEntity toEntity(GameModel model) {
+        fr.greta.java.videogames.persistence.GameEntity entity = new fr.greta.java.videogames.persistence.GameEntity();
         entity.setId(model.getId());
         entity.setTitre(model.getTitre());
         entity.setNote(model.getNote());

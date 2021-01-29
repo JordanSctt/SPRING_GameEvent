@@ -1,5 +1,6 @@
 package fr.greta.java.videogames.facade;
 
+
 import fr.greta.java.videogames.domain.GameModel;
 import org.springframework.stereotype.Component;
 

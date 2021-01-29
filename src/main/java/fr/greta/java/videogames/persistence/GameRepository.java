@@ -5,6 +5,4 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 
 public interface GameRepository extends JpaRepository<GameEntity, Integer>, JpaSpecificationExecutor<GameEntity> {
-
-
 }

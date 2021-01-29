@@ -1,0 +1,39 @@
+body {
+    margin-bottom: 10px;
+    background-color: #A9A9A9;
+}
+
+.btn .btn-md .btn-danger .btn-block {
+    margin-top: 20px;
+}
+
+.container1 {
+    display: flexbox;
+    margin: 20px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.container2 {
+    display: flex;
+    margin: 20px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.navbar .navbar-dark .bg-dark {
+    display: flexbox;
+    margin: 5px;
+    justify-content: center;
+    align-items: center;
+}
+
+.div1 {
+    display: flexbox;
+    margin: 5px;
+    justify-content: center;
+    align-items: center;
+}
+

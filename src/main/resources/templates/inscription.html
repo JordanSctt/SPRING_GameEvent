@@ -1,0 +1,47 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<!doctype html>
+<html lang="fr">
+
+  <head>
+    <meta charset="utf-8">
+    <title>Page d'inscription</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/floating-labels.css}">
+  </head>
+
+  <body>
+    <form class="form-signin" action="/signin" method="POST">
+  <div class="text-center mb-4">
+
+    <h1 class="h3 mb-3 font-weight-normal">S'inscrire sur Game event</h1>
+    <p>Veuillez saisir les champs ci-dessous afin de vous inscrire sur le site et d'accéder aux fonctionalités</p>
+  </div>
+
+  <div class="form-label-group">
+    <input type="text" id="inputLogin" class="form-control" name="login" placeholder="Login" required autofocus>
+    <label for="inputLogin">Login :</label>
+  </div>
+  <div class="form-label-group">
+    <input type="email" id="inputEmail" class="form-control" name="email" placeholder="test@test.com" required>
+    <label for="inputEmail">Email :</label>
+  </div>
+  <div class="form-label-group">
+    <input type="password" id="inputPassword" class="form-control" name="password" placeholder="*******" required>
+    <label for="inputPassword">Mot de passe :</label>
+  </div>
+   <div class="form-label-group">
+      <input type="text" id="inputFirstName" class="form-control" name="firstName" placeholder="Prenom">
+      <label for="inputFirstName">Prénom :</label>
+   </div>
+   <div class="form-label-group">
+       <input type="text" id="inputLastName" class="form-control" name="lastName" placeholder="Nom">
+       <label for="inputLastName">Nom :</label>
+   </div>
+
+  <button class="btn btn-lg btn-primary btn-block" type="submit">S'inscrire</button>
+  <p class="mt-5 mb-3 text-muted text-center">&copy; Famille Bros since 1998</p>
+</form>
+</body>
+</html>

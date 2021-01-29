@@ -16,7 +16,7 @@ public class GameEntity {
     @Column(name = "id", unique = true, nullable = false)
     private int id;
 
-    @Column(name = "title")
+    @Column(name = "titre")
     private String titre;
 
     @Column(name = "note")

@@ -1,0 +1,40 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/style-accueil.css}">
+    <title>Accueil</title>
+</head>
+<body>
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid justify-content-start">
+        <div class="div1">
+            <a class="btn btn-outline-success me-2" type="button" href="/login">Connection</a>
+        </div>
+        <div class="div1">        
+            <a class="btn btn-outline-success me-2" type="button" href="/Signin">Inscription</a>
+        </div>
+        <div class="div1" sec:authorize="isAuthenticated()"> 
+            <form th:action="@{/logout}" method="get">
+                <button class="btn btn-outline-warning me-2" type="Submit">Déconnection</button>
+            </form>
+        </div>
+    </div>
+</nav>
+</br>
+</br>
+</br>
+<div class="container1">
+    <h1>Bienvenue sur Game Event</h1>
+</div>
+<div class="container1">
+    <h2>Connectez vous pour accéder à la liste de jeux</h2>
+</div>
+<div class="container2">
+    <img src="images/gaming.jpg" alt="" width="400px" height="600px">
+</div>
+</body>
+</html>

@@ -1,5 +1,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec=" http://www.thymeleaf.org/extras/spring-security ">
 
 <head>
     <meta charset="utf-8" />
@@ -16,10 +17,10 @@
             <div class="div1">
                 <a class="btn btn-outline-success me-2" type="button" href="/login">Connection</a>
             </div>
-            <div class="div1">        
+            <div class="div1">
                 <a class="btn btn-outline-success me-2" type="button" href="/Signin">Inscription</a>
             </div>
-            <div class="div1" sec:authorize="isAuthenticated()"> 
+            <div class="div1" sec:authorize="isAuthenticated()">
                 <form th:action="@{/logout}" method="get">
                     <button class="btn btn-outline-warning me-2" type="Submit">Déconnection</button>
                 </form>
@@ -27,19 +28,19 @@
         </div>
     </nav>
 
-<div class="container">    
+<div class="container">
     <h1 class="h3 mb-3 font-weight-normal justify-content-center">Liste des jeux</h1>
     <a type="button" class="btn btn-primary justify-content-center" href="/game/new">Ajouter un jeu</a>
        <h2 class="h3 mb-3 font-weight-normal justify-content-center">Bienvenue <span class="h3 mb-3 font-weight-normal justify-content-center" th:text="${nameUserConnected}"></span></h2>
     </br>
-<table class="table">  
+<table class="table">
     <thead>
     <tr>
         <th scope="col"><a href="/game/tri?colonne=titre">Titre</a></th>
         <th scope="col"><a href="/game/tri?colonne=note">Note</a></th>
         <th scope="col"><a href="/game/tri?colonne=commentaire">Commentaire</a></th>
         <th scope="col"><a href="/game/tri?colonne=genre">Genre</a></th>
-        <th scope="col">Actions</th>
+        <div sec:authorize="hasAuthority('ADMIN')"><th scope="col">Actions</th></div>
     </tr>
 
     </thead>
@@ -49,10 +50,10 @@
             <td th:text="${game.note}">/20</td>
             <td th:text="${game.commentaire}"/>
             <td th:text="${game.genre}"/>
-            
+
             <td><div sec:authorize="hasAuthority('ROLE_ADMIN')"><a type="button" class="btn btn-secondary" th:href="'/game/admin/edit?id=' + ${game.id}">éditer</a></div></td>
             <td><div sec:authorize="hasAuthority('ADMIN')"><a type="button" class="btn btn-secondary" th:href="'/game/admin/delete?id=' + ${game.id}">supprimer</a></div></td>
-            
+
         </tr>
     </tbody>
 </table>

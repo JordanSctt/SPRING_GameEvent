@@ -20,6 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -33,16 +34,10 @@ public class GameController {
     private GameService gameService;
 
     @Autowired
-    private GameDTOWrapper gameDTOWrapper;
+    private GameDTOWrapper wrapperDTO;
 
     @Autowired
     private GameRepository gameRepository;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private UserDTOWrapper userDTOWrapper;
 
 
     @GetMapping("/list")
@@ -77,16 +72,13 @@ public class GameController {
         CustomList<GameModel, Integer> all = gameService.findAllByPage(page);
 
         ModelAndView modelAndView = new ModelAndView("game-list");
-        modelAndView.addObject("games", gameDTOWrapper.fromModels(all.getList()));
+        modelAndView.addObject("games", wrapperDTO.fromModels(all.getList()));
         modelAndView.addObject("currentPage", page);
         modelAndView.addObject("totalPage", all.getValue());
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String login = auth.getName();
-        modelAndView.addObject("nameUserConnected", login);
-
-        UserDTO userDTO = userDTOWrapper.fromEntity(userRepository.findByLogin(login));
-        modelAndView.addObject("userConnected", userDTO);
+        String name = auth.getName();
+        modelAndView.addObject("nameUserConnected", name);
 
         return modelAndView;
     }
@@ -94,13 +86,13 @@ public class GameController {
     @GetMapping("/admin/edit")
     public ModelAndView displayFormEdit(@RequestParam int id) {
         ModelAndView modelAndView = new ModelAndView("game-edit");
-        modelAndView.addObject("game", gameDTOWrapper.fromModel(gameService.findById(id)));
+        modelAndView.addObject("game", wrapperDTO.fromModel(gameService.findById(id)));
         return modelAndView;
     }
 
     @PostMapping("/admin/edit")
     public ModelAndView edit(@ModelAttribute("request") GameDTO request) {
-        gameService.save(gameDTOWrapper.toModel(request));
+        gameService.save(wrapperDTO.toModel(request));
         return findAllWithPaging(1);
     }
 
@@ -115,16 +107,16 @@ public class GameController {
     public ModelAndView delete(@RequestParam int id) {
         GameDTO game = new GameDTO();
         game.setId(id);
-        gameService.delete(gameDTOWrapper.toModel(game));
+        gameService.delete(wrapperDTO.toModel(game));
         return findAllWithPaging(1);
     }
 
     @GetMapping("/search")
     public ModelAndView search(@PathVariable(value = "title") String title, int page) {
-        Specification<GameEntity> spec = titleIs(title);
+        Specification<fr.greta.java.videogames.persistence.GameEntity> spec = titleIs(title);
 
         Sort sort = Sort.by(Sort.Direction.ASC, "title");
-        Page<GameEntity> all = gameRepository.findAll(spec, PageRequest.of(page, 10, sort));
+        Page<fr.greta.java.videogames.persistence.GameEntity> all = gameRepository.findAll(spec, PageRequest.of(page, 10, sort));
 
         ModelAndView modelAndView = new ModelAndView("game-list");
         modelAndView.addObject("games", all.getContent());
@@ -132,9 +124,7 @@ public class GameController {
         return modelAndView;
     }
 
-    public Specification<GameEntity> titleIs(String value) {
+    public Specification<fr.greta.java.videogames.persistence.GameEntity> titleIs(String value) {
         return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.get("title"), "%" + value + "%");
     }
-
-
 }

@@ -14,6 +14,12 @@
 
     <nav class="navbar navbar-dark bg-dark">
         <div class="container-fluid justify-content-start">
+            <div class="div1">
+                <a class="btn btn-outline-success me-2" type="button" href="/login">Connection</a>
+            </div>
+            <div class="div1">
+                <a class="btn btn-outline-success me-2" type="button" href="/Signin">Inscription</a>
+            </div>
             <div class="div1" sec:authorize="isAuthenticated()">
                 <form th:action="@{/logout}" method="get">
                     <button class="btn btn-outline-warning me-2" type="Submit">Déconnection</button>
@@ -29,9 +35,9 @@
 
 <div class="container">
     <h1 class="h3 mb-3 font-weight-normal justify-content-center">Liste des jeux</h1>
-    <div sec:authorize="hasAuthority('ADMIN')"><a type="button" class="btn btn-primary justify-content-center" href="/game/new">Ajouter un jeu</a></div>
+    <a type="button" class="btn btn-primary justify-content-center" href="/game/new">Ajouter un jeu</a>
+       <h2 class="h3 mb-3 font-weight-normal justify-content-center">Bienvenue <span class="h3 mb-3 font-weight-normal justify-content-center" th:text="${nameUserConnected}"></span></h2>
     </br>
-
 <table class="table">
     <thead>
     <tr>
@@ -46,7 +52,7 @@
             <td class="h6" th:text="${game.titre}"/>
             <td th:text="${game.genre}"/>
 
-            <td><div sec:authorize="hasAuthority('ADMIN')"><a type="button" class="btn btn-secondary" th:href="'/game/admin/edit?id=' + ${game.id}">éditer</a></div></td>
+            <td><div sec:authorize="hasAuthority('ROLE_ADMIN')"><a type="button" class="btn btn-secondary" th:href="'/game/admin/edit?id=' + ${game.id}">éditer</a></div></td>
             <td><div sec:authorize="hasAuthority('ADMIN')"><a type="button" class="btn btn-secondary" th:href="'/game/admin/delete?id=' + ${game.id}">supprimer</a></div></td>
 
         </tr>

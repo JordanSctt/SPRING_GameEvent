@@ -1,7 +1,9 @@
 package fr.greta.java.user.facade;
 
 
-import fr.greta.java.user.persistence.UserRepository;
+import fr.greta.java.user.facade.dto.UserDTO;
+import fr.greta.java.user.facade.wrapper.UserDTOWrapper;
+import fr.greta.java.user.persistence.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.core.Authentication;

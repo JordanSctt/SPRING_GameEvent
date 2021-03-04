@@ -1,6 +1,8 @@
 package fr.greta.java.user.persistence;
 
 
+import fr.greta.java.user.persistence.entity.UserEntity;
+import fr.greta.java.user.persistence.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

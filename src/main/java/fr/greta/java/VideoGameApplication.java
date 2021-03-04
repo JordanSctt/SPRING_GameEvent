@@ -19,7 +19,6 @@ public class VideoGameApplication {
 	@Autowired
 	private GameRepository repository;
 
-
 	@EventListener(ApplicationReadyEvent.class)
 	public void doSomethingAfterStartup() {
 		if(repository.count() == 0) {

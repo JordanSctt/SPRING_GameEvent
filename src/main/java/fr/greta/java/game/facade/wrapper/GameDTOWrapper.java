@@ -19,6 +19,23 @@ public class GameDTOWrapper {
         return dtos;
     }
 
+    public CustomPage<GameDTO2> fromPage(Page<GameEntity> pageEntity) {
+        CustomPage<GameDTO2> customPage = new CustomPage<>();
+        pageEntity.forEach(entity -> customPage.getElements().add(fromEntity(entity)));
+        customPage.setTotalPage(pageEntity.getTotalPages());
+        return customPage;
+    }
+
+    public GameDTO2 fromEntity(GameEntity entity) {
+        GameDTO2 gameDTO2 = new GameDTO2();
+        gameDTO2.setId(entity.getId());
+        gameDTO2.setTitle(entity.getTitle());
+        gameDTO2.setNote(entity.getNote());
+        gameDTO2.setCommentaire(entity.getCommentaire());
+        gameDTO2.setGenre(entity.getGenre());
+        return gameDTO2;
+    }
+
     public GameDTO fromModel(GameModel model) {
         GameDTO dto = new GameDTO();
         dto.setId(model.getId());

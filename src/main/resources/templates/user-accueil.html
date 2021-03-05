@@ -1,0 +1,152 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec=" http://www.thymeleaf.org/extras/spring-security">
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>GameEvent - User accueil</title>
+    <link rel="stylesheet" th:href="@{/css/user-accueil.css}">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li>
+                    <img src="/images/logo_small.png" alt="logo_GameEvent">
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    <a href="/login" class="gry_btn">Connection</a>
+                </li>
+                <li>
+                    <a href="/Signin" class="gry_btn">Inscription</a>
+                </li>
+                <li sec:authorize="isAuthenticated()">
+                    <form th:action="@{/logout}" method="get">
+                        <a href="/accueil" class="gry_btn">Déconnection</a>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <div class="big-container">
+        <div class="container">
+            <a href="/groupe/new" class="btn_new_groupe">Créer un groupe</a>
+            <div class="card_groupe">
+                <div class="box">
+                    <div class="content">
+                        <a class="txt_btn" href="#">Groupe 1</a>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="content">
+                        <a class="txt_btn" href="#">Groupe 2</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container_game">
+            <div class="btn_user">
+                <a href="/file/upload" title="Changer de photo de profil">
+                    <img class="img" alt="Aucune photo de profil" th:src="'/images/profil/' + ${userConnected.uuid} + '.jpg'"/>
+                </a>
+                <span class="txt_btn_name" th:text="${nameUserConnected}"></span>
+            </div>
+            <div class="card_game">
+                <div class="box_game">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col"><a class="txt_btn_table" href="/game/tri?colonne=titre">Titre</a></th>
+                                <th scope="col"><a class="txt_btn_table" href="/game/tri?colonne=genre">Genre</a></th>
+                                <div sec:authorize="hasAuthority('ADMIN')">
+                                    <th scope="col">Actions</th>
+                                </div>
+                            </tr>
+            
+                        </thead>
+                        <tbody>
+                            <tr th:each="game: ${games}">
+                                <td class="h6" th:text="${game.titre}" />
+                                <td th:text="${game.genre}" />
+            
+                                <td>
+                                    <div><a type="button" class="txt_btn_table"
+                                        th:href="'/game/add?id=' + ${game.id}">ajouter à mes jeux</a></div>
+                                    <!-- <div sec:authorize="hasAuthority('ADMIN')"><a type="button" class="txt_btn_table"
+                                            th:href="'/game/admin/edit?id=' + ${game.id}">éditer</a></div>
+                                    <div sec:authorize="hasAuthority('ADMIN')"><a type="button" class="txt_btn_table"
+                                            th:href="'/game/admin/delete?id=' + ${game.id}">supprimer</a></div> -->
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <nav class="nav_page">
+                    <ul>           
+                        <li th:class="${currentPage eq 0}? 'page-item disabled' : 'page-item' "> <!--class="page-item" -->
+                            <a  th:if="${currentPage > 0}" th:href="'/game/page?page=' + (${currentPage } - 1)" >Previous</a> <!-- th:if="${currentPage eq 0}" -->
+                        </li>
+                        <li ><a th:class="${currentPage eq 0}? 'page-item'" th:href="'/game/page?page=0'">1</a></li>
+                        <li ><a th:class="${currentPage eq 1}? 'page-item'" th:href="'/game/page?page=1'">2</a></li>
+                        <li ><a th:class="${currentPage eq 2}? 'page-item'" th:href="'/game/page?page=2'" >3</a></li>
+                        <li ><a th:class="${currentPage eq 3}? 'page-item'" th:href="'/game/page?page=3'">4</a></li>
+                        <li ><a th:class="${currentPage eq 4}? 'page-item'" th:href="'/game/page?page=4'">5</a></li>
+                        <li>
+                            <a  th:if="((${currentPage} + 1) < ${totalPage})" th:href="'/game/page?page=' + (${currentPage} + 1)">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="nav_page">
+                    <form class="form-signin" name="request" action="/game/search" method="post">
+                        <div>
+                            <label class="h3 mb-3 font-weight-normal justify-content-center">Recherche filtrée : </label>
+                            <input class="form-control" type="text" name="texte">
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="rechercheParTitre" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">Titre</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="rechercheParGenre" id="flexCheckDefault2">
+                            <label class="form-check-label" for="flexCheckDefault2">Commentaire</label>
+                        </div>
+                        <button class="btn btn-primary justify-content-center" type="submit">Rechercher</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="card_event">
+                <div class="box">
+                    <div class="content">
+                        <a class="txt_btn" href="#">Event 1</a>
+                        <p class="txt">Groupe 1</p>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="content">
+                        <a class="txt_btn" href="#">Event 2</a>
+                        <p class="txt">Groupe 1</p>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="content">
+                        <a class="txt_btn" href="#">Event 1</a>
+                        <p class="txt">Groupe 2</p>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="content">
+                        <a class="txt_btn" href="#">Event 2</a>
+                        <p class="txt">Groupe 2</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,39 +1,45 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec=" http://www.thymeleaf.org/extras/spring-security">
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <!-- <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"> -->
     <link rel="stylesheet" th:href="@{/css/style-accueil.css}">
-    <title>Accueil</title>
+    <title>GameEvent Accueil</title>
 </head>
 <body>
 <header>
-    <nav class="navbar navbar-dark bg-dark">
-        <div class="container-fluid justify-content-start">
-            <div class="div1">
-                <a class="btn btn-outline-success me-2" type="button" href="/login">Connection</a>
-            </div>
-            <div class="div1">
-                <a class="btn btn-outline-success me-2" type="button" href="/Signin">Inscription</a>
-            </div>
-            <div class="div1" sec:authorize="isAuthenticated()">
+    <nav>
+        <ul>
+            <li>
+                <img src="/images/logo_small.png" alt="logo_GameEvent">
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <a href="/login" class="gry_btn">Connection</a>
+            </li>
+            <li>
+                <a href="/Signin" class="gry_btn">Inscription</a>
+            </li>
+            <li sec:authorize="isAuthenticated()">
                 <form th:action="@{/logout}" method="get">
-                    <button class="btn btn-outline-warning me-2" type="Submit">Déconnection</button>
+                    <a href="/login" class="gry_btn">Déconnection</a>
                 </form>
-            </div>
-        </div>
+            </li>
+        </ul>
     </nav>
 </header>
+
 <div class="big-container">
     <div class="container">
         <div class="card">
             <div class="box">
                 <div class="content">
                     <h2>01</h2>
-                    <h3>Connectez  vous</h3>
-                    <p>Inscrivez-vous puis connectez vous afin d'avoir accés aux fonctionnalités de GameEvent. Personnalisez votre profil</p>
+                    <h3>Connectez<br/>vous</h3>
+                    <p>Inscrivez-vous puis connectez-vous afin d'avoir accés aux fonctionnalités de GameEvent. Personnalisez votre profil</p>
                     <a href="#">Login</a>
                 </div>
             </div>
@@ -70,14 +76,5 @@
         </div>
     </div>
 </div>
-<!-- <div class="container1">
-    <h1>Bienvenue sur Game Event</h1>
-</div>
-<div class="container1">
-    <h2>Connectez vous pour accéder à la liste de jeux</h2>
-</div>
-<div class="container2">
-    <img src="images/gaming.jpg" alt="" width="400px" height="600px">
-</div> -->
 </body>
 </html>

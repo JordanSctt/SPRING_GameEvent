@@ -2,7 +2,7 @@ package fr.greta.java.user.facade.dto;
 
 public class UserDTO {
 
-    private int id;
+    private String uuid;
 
     private String login;
 
@@ -10,21 +10,17 @@ public class UserDTO {
 
     private String password;
 
-    private String firstName;
-
-    private String lastName;
-
     private String role;
 
     //-------------------------------------
 
 
-    public int getId() {
-        return id;
+    public String getUuid() {
+        return uuid;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public String getLogin() {
@@ -49,22 +45,6 @@ public class UserDTO {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public String getRole() {

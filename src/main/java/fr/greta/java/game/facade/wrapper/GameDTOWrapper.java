@@ -1,8 +1,9 @@
 package fr.greta.java.game.facade.wrapper;
 
-
 import fr.greta.java.game.domain.model.GameModel;
 import fr.greta.java.game.facade.dto.GameDTO;
+import fr.greta.java.game.persistence.entity.GameEntity;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -17,6 +18,22 @@ public class GameDTOWrapper {
             dtos.add(fromModel(model));
         }
         return dtos;
+    }
+    /*
+    public CustomPage<GameDTO> fromPage(Page<GameEntity> pageEntity) {
+        CustomPage<GameDTO> customPage = new CustomPage<>();
+        pageEntity.forEach(entity -> customPage.getElements().add(fromEntity(entity)));
+        customPage.setTotalPage(pageEntity.getTotalPages());
+        return customPage;
+    }
+     */
+
+    public GameDTO fromEntity(GameEntity entity) {
+        GameDTO gameDTO = new GameDTO();
+        gameDTO.setId(entity.getId());
+        gameDTO.setTitre(entity.getTitre());
+        gameDTO.setGenre(entity.getGenre());
+        return gameDTO;
     }
 
     public CustomPage<GameDTO2> fromPage(Page<GameEntity> pageEntity) {

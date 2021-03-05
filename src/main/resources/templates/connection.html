@@ -6,39 +6,28 @@
 
   <head>
     <meta charset="utf-8">
-    <title>Page de connection</title>
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{/css/floating-labels.css}">
+    <title>Connection</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
   </head>
 
   <body>
-  <!-- FORMULAIRE : -->
-
-    <form class="form-signin" name="request" action="/login" method="POST">
-  <div class="text-center mb-4">
-
-    <h1 class="h3 mb-3 font-weight-normal">Se connecter à Game Event</h1>
-    <p>Veuillez saisir votre login ainsi que votre mot de passe afin d'accéder aux fonctionnalités</p>
-  </div>
-
-  <div class="form-label-group">
-    <input type="text" id="inputLogin" class="form-control" name="login" placeholder="login" required autofocus>
-    <label for="inputLogin">login :</label>
-  </div>
-
-  <div class="form-label-group">
-    <input type="password" id="inputPassword" class="form-control" name="password" placeholder="mot de passe" required>
-    <label for="inputPassword">Mot de passe :</label>
-  </div>
-
-  <!-- <div class="checkbox mb-3">
-    <label>
-      <input type="checkbox" value="remember-me"> Remember me
-    </label>
-  </div>  -->
-
-  <button class="btn btn-lg btn-primary btn-block" type="submit">Se connecter</button>
-  <p class="mt-5 mb-3 text-muted text-center">&copy; GameEvent</p>
-</form>
+    <form class="form" name="request" action="/login" method="POST">
+      <h2>Se connecter à Game Event</h2>
+      <div class="input">
+        <div class="inputBox">
+          <label>login</label>
+          <input type="text" name="login" placeholder="login" required autofocus>
+        </div>
+        <div class="inputBox">
+          <label>password</label>
+          <input type="password" name="password" placeholder="*******" required autofocus>
+        </div>
+        <div class="inputBox">
+          <input type="submit" name="" value="Se connecter">
+        </div>
+      </div>
+      <p class="forget">Forget Password ? <a href="#"> Click here</a></p>
+      <p class="forget">&copy; GameEvent</p>
+    </form>
 </body>
 </html>

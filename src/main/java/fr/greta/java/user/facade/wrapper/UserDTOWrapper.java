@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class UserDTOWrapper {
 
@@ -16,12 +18,20 @@ public class UserDTOWrapper {
 
     public UserEntity toEntity(UserDTO dto) {
         UserEntity entity = new UserEntity();
-        entity.setId(dto.getId());
+        entity.setId(dto.getUuid());
         entity.setLogin(dto.getLogin());
         entity.setEmail(dto.getEmail());
         entity.setPassword(passwordEncoder().encode(dto.getPassword()));
-        entity.setFirstName(dto.getFirstName());
-        entity.setLastName(dto.getLastName());
+        entity.setRole("USER");
         return entity;
+    }
+
+    public UserDTO fromEntity(Optional<UserEntity> entity) {
+        UserDTO dto = new UserDTO();
+        dto.setUuid(entity.get().getId());
+        dto.setLogin(entity.get().getLogin());
+        dto.setEmail(entity.get().getEmail());
+        dto.setRole(entity.get().getRole());
+        return dto;
     }
 }

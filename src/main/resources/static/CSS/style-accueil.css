@@ -6,6 +6,65 @@
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
+/* NAVBAR */
+
+nav {
+    height: 70px;
+    background: #232427;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 8px;
+    box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05),
+                inset 5px 5px 15px rgba(0, 0, 0, 0.5);
+}
+nav ul {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style-type: none;
+}
+nav ul li {
+    padding: 0 8px;
+}
+nav ul:first-child li img {
+    display: flex;
+    align-items: center;
+    width: 320;
+    height: 64;
+}
+.txt_btn {
+    text-decoration: none;
+    color: #8d8d8d;
+    font-weight: 700;
+    font-size: 1.2em;
+    padding: 0 8px;
+    transition: all 0.2s ease-in-out;
+}
+.txt_btn:hover {
+    color: #fea701;
+}
+.gry_btn {
+    text-decoration: none;
+    width: 100%;
+    font-size: 18px;
+    font-weight: 600;
+    background: #232427;
+    border-radius: 27px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: #8d8d8d;
+    padding: 8 18px;
+    box-shadow: -5px -5px 10px rgba(255, 255, 255, 0.05),
+                5px 5px 15px rgba(0, 0, 0, 0.5);
+}
+.gry_btn:active {
+    color: #fea701;
+    box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05),
+                inset 5px 5px 15px rgba(0, 0, 0, 0.5);
+}
+
 
 /* CARDS */
 
@@ -104,16 +163,16 @@
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 .container .card:nth-child(1) .box .content a {
-    background: #2196f3;
+    background: #fea701;
 }
 .container .card:nth-child(2) .box .content a {
-    background: #e91e63;
+    background: #fea701;
 }
 .container .card:nth-child(3) .box .content a {
-    background: #97dc47;
+    background: #fea701;
 }
 .container .card:nth-child(4) .box .content a {
-    background :#45B39D;
+    background : #fea701;
 }
 
 

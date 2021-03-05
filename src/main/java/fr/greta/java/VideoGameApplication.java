@@ -75,8 +75,4 @@ public class VideoGameApplication {
 		game1.setGenre(genre);
 		repository.save(game1);
 	}
-
-
-
-
 }

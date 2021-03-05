@@ -39,6 +39,12 @@ public class GameController {
     @Autowired
     private GameRepository gameRepository;
 
+    @Autowired
+    private UserDTOWrapper userDTOWrapper;
+
+    @Autowired
+    private UserRepository userRepository;
+
 
     @GetMapping("/list")
     public ModelAndView list() {
@@ -71,7 +77,7 @@ public class GameController {
     public ModelAndView findAllWithPaging(@RequestParam int page) {
         CustomList<GameModel, Integer> all = gameService.findAllByPage(page);
 
-        ModelAndView modelAndView = new ModelAndView("game-list");
+        ModelAndView modelAndView = new ModelAndView("user-accueil"); /* "game-list" */
         modelAndView.addObject("games", wrapperDTO.fromModels(all.getList()));
         modelAndView.addObject("currentPage", page);
         modelAndView.addObject("totalPage", all.getValue());
@@ -80,12 +86,15 @@ public class GameController {
         String name = auth.getName();
         modelAndView.addObject("nameUserConnected", name);
 
+        UserDTO userDTO = userDTOWrapper.fromEntity(userRepository.findByLogin(name));
+        modelAndView.addObject("userConnected", userDTO);
+
         return modelAndView;
     }
 
     @GetMapping("/admin/edit")
     public ModelAndView displayFormEdit(@RequestParam int id) {
-        ModelAndView modelAndView = new ModelAndView("game-edit");
+        ModelAndView modelAndView = new ModelAndView("user-accueil"); /* "game-list" */
         modelAndView.addObject("game", wrapperDTO.fromModel(gameService.findById(id)));
         return modelAndView;
     }
@@ -98,7 +107,7 @@ public class GameController {
 
     @GetMapping("/new")
     public ModelAndView displayFormNew() {
-        ModelAndView modelAndView = new ModelAndView("game-edit");
+        ModelAndView modelAndView = new ModelAndView("user-accueil"); /* "game-list" */
         modelAndView.addObject("game", new GameDTO());
         return modelAndView;
     }
@@ -113,18 +122,18 @@ public class GameController {
 
     @GetMapping("/search")
     public ModelAndView search(@PathVariable(value = "title") String title, int page) {
-        Specification<fr.greta.java.videogames.persistence.GameEntity> spec = titleIs(title);
+        Specification<GameEntity> spec = titleIs(title);
 
         Sort sort = Sort.by(Sort.Direction.ASC, "title");
-        Page<fr.greta.java.videogames.persistence.GameEntity> all = gameRepository.findAll(spec, PageRequest.of(page, 10, sort));
+        Page<GameEntity> all = gameRepository.findAll(spec, PageRequest.of(page, 10, sort));
 
-        ModelAndView modelAndView = new ModelAndView("game-list");
+        ModelAndView modelAndView = new ModelAndView("user-accueil"); /* "game-list" */
         modelAndView.addObject("games", all.getContent());
         modelAndView.addObject("paging", (page+1) + " / " + all.getTotalPages());
         return modelAndView;
     }
 
-    public Specification<fr.greta.java.videogames.persistence.GameEntity> titleIs(String value) {
+    public Specification<GameEntity> titleIs(String value) {
         return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.get("title"), "%" + value + "%");
     }
 }

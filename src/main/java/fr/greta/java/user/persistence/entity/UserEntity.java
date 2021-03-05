@@ -2,6 +2,7 @@ package fr.greta.java.user.persistence.entity;
 
 import fr.greta.java.event.persistence.entity.EventEntity;
 import fr.greta.java.groupe.persistence.entity.GroupeEntity;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -12,19 +13,15 @@ import java.util.List;
 public class UserEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", unique = true, nullable = false)
-    private int id;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    private String id;
 
     private String login;
 
     private String email;
 
     private String password;
-
-    private String firstName;
-
-    private String lastName;
 
     private String role;
 
@@ -40,11 +37,12 @@ public class UserEntity {
 
     //----------------------------
 
-    public int getId() {
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -72,22 +70,6 @@ public class UserEntity {
         this.password = password;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     public String getRole() {
         return role;
     }
@@ -102,5 +84,13 @@ public class UserEntity {
 
     public void setGroupes(List<GroupeEntity> groupes) {
         this.groupes = groupes;
+    }
+
+    public List<EventEntity> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<EventEntity> events) {
+        this.events = events;
     }
 }

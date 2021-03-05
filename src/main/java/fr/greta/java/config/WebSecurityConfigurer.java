@@ -32,6 +32,8 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers("/user/accueil")
+                .authenticated()
                 .antMatchers("/game/admin/**")
                 .hasAuthority("ADMIN")
                 .antMatchers("/game/list")
@@ -45,7 +47,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .and().csrf().disable()
                 .formLogin()
                 .loginPage("/login")
-                .defaultSuccessUrl("/game/list", true)
+                .defaultSuccessUrl("/user/accueil", true)
                 .failureUrl("/login.html?error=connection")
                 .usernameParameter("login")
                 .passwordParameter("password")

@@ -1,0 +1,322 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap');
+
+ * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* NAVBAR */
+
+nav {
+    height: 70px;
+    background: #232427;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 8px;
+    box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05),
+                inset 5px 5px 15px rgba(0, 0, 0, 0.5);
+}
+nav ul {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style-type: none;
+}
+nav ul li {
+    padding: 0 8px;
+}
+nav ul:first-child li img {
+    display: flex;
+    align-items: center;
+    width: 320;
+    height: 64;
+}
+.gry_btn {
+    text-decoration: none;
+    width: 100%;
+    font-size: 18px;
+    font-weight: 600;
+    background: #232427;
+    border-radius: 27px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: #8d8d8d;
+    padding: 8 18px;
+    box-shadow: -5px -5px 10px rgba(255, 255, 255, 0.05),
+                5px 5px 15px rgba(0, 0, 0, 0.5);
+}
+.gry_btn:active {
+    color: #fea701;
+    box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05),
+                inset 5px 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+
+.big-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    min-height: 100vh;
+    background: #232427;
+}
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 400px;
+    height: 100%;
+    margin: 30px 0;
+}
+
+/* GROUPE CARDS */
+
+.container .card_groupe {
+    display: flex;
+    flex-direction: column;
+    min-width: 380px;
+    height: 100%;
+    box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.2),
+                inset -5px -5px 15px rgba(255, 255, 255, 0.1),
+                5px 5px 15px rgba(0, 0, 0, 0.3),
+                -5px -5px 15px rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    margin: 20px 5px;
+    padding: 10px 10px;
+}
+.container .card_groupe .box {
+    display: flex;
+    width: 360px;
+    height: 62px;
+    background: #2a2b2f;
+    border: 2px solid #1e1f23;
+    border-radius: 15px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    transition: 0.5s;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+.container .card_groupe .box:hover {
+    transform: translateX(50px);
+    box-shadow: 0 40px 70px rgba(0, 0, 0, 0.5);
+} 
+
+
+/* EVENTS CARDS */
+
+.container .card_event {
+    display: flex;
+    flex-direction: column;
+    min-width: 380px;
+    height: 100%;
+    box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.2),
+                inset -5px -5px 15px rgba(255, 255, 255, 0.1),
+                5px 5px 15px rgba(0, 0, 0, 0.3),
+                -5px -5px 15px rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    margin: 20px 5px;
+    padding: 10px 10px;
+}
+.container .card_event .box {
+    display: flex;
+    width: 360px;
+    height: 62px;
+    background: #2a2b2f;
+    border: 2px solid #1e1f23;
+    border-radius: 15px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    transition: 0.5s;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+.container .card_event .box:hover {
+    transform: translateX(-50px);
+    box-shadow: 0 40px 70px rgba(0, 0, 0, 0.5);
+}
+
+/* GAME CARDS */
+
+.container_game {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    max-width: 100%;
+    height: 100%;
+    margin: 30px 0;
+}
+.container_game .card_game {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    min-width: 380px;
+    height: 100%;
+    box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.2),
+                inset -5px -5px 15px rgba(255, 255, 255, 0.1),
+                5px 5px 15px rgba(0, 0, 0, 0.3),
+                -5px -5px 15px rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    margin: 20px 5px;
+    padding: 20px 20px;
+}
+.container .card_game .box_game {
+    display: flex;
+    max-width: 95%;
+    max-height: 100%;
+    background: #2a2b2f;
+    border: 2px solid #1e1f23;
+    border-radius: 15px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+table {
+    display: table;
+    box-sizing: border-box;
+    text-indent: initial;
+    white-space: normal;
+    line-height: normal;
+    font-weight: normal;
+    font-size: medium;
+    font-style: normal;
+    color: #8d8d8d;
+    text-align: start;
+    border-spacing: 5px;
+    border-color: grey;
+}
+table, th, td {
+    border-top: 1px solid #8d8d8d;
+    border-collapse: collapse;
+    border-spacing: 5px;
+    padding: 2px;
+  }
+td {
+    padding-right: 10px;
+    min-width: 250px;
+    text-align: center;
+}
+.txt_btn_table {
+    text-decoration: none;
+    color: #8d8d8d;
+    font-weight: 7500;
+    font-size: 1em;
+    transition: all 0.2s ease-in-out;
+}
+.txt_btn_table:hover {
+    color: #fea701;
+}
+.nav_page {
+    display: flex;
+    justify-content: center;
+    max-width: 80%;
+    height: 50px;
+    font-size: 18px;
+    font-weight: 600;
+    background: #232427;
+    border-radius: 27px;
+    padding: 8 18px;
+    margin: 20px 0 10px 0;
+    box-shadow: -5px -5px 10px rgba(255, 255, 255, 0.05),
+                5px 5px 15px rgba(0, 0, 0, 0.5);
+}
+.nav_page ul {
+    text-align: center;
+    align-items: center;
+    color: #fea701;
+    font-weight: 700;
+    font-size: 1.2em;
+}
+.nav_page ul li a {
+    text-decoration: none;
+    color: #8d8d8d;
+    font-weight: 7500;
+    font-size: 1em;
+    transition: all 0.2s ease-in-out;
+}
+.nav_page ul li a:hover {
+    color: #fea701;
+}
+.nav_page ul li .page-item {
+    color: #fea701;
+}
+
+
+/* CARD USER */
+
+.btn_user {
+    display: flex;
+    text-decoration: none;
+    text-align: center;
+    align-items: center;
+    max-width: 80%;
+    font-size: 18px;
+    font-weight: 600;
+    background: #232427;
+    border-radius: 27px;
+    border: none;
+    outline: none;
+    color: #8d8d8d;
+    padding: 8 18px;
+    box-shadow: -5px -5px 10px rgba(255, 255, 255, 0.05),
+                5px 5px 15px rgba(0, 0, 0, 0.5);
+}
+.txt_btn_name {
+    color: #fea701;
+    font-weight: 700;
+    font-size: 1.2em;
+    margin-left: 10px;
+}
+.img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+}
+
+/* BTN BOXS */
+
+.txt_btn {
+    text-decoration: none;
+    color: #8d8d8d;
+    font-weight: 700;
+    font-size: 1.2em;
+    transition: all 0.2s ease-in-out;
+}
+.txt_btn:hover {
+    color: #fea701;
+}
+.txt {
+    text-decoration: none;
+    color: #8d8d8d;
+    font-weight: 400;
+    font-size: 0.8em;
+    transition: all 0.2s ease-in-out;
+}
+.btn_new_groupe {
+    text-decoration: none;
+    text-align: center;
+    width: 80%;
+    font-size: 18px;
+    font-weight: 600;
+    background: #232427;
+    border-radius: 27px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: #8d8d8d;
+    padding: 8 18px;
+    box-shadow: -5px -5px 10px rgba(255, 255, 255, 0.05),
+                5px 5px 15px rgba(0, 0, 0, 0.5);
+}
+.btn_new_groupe:active {
+    color: #fea701;
+    box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05),
+                inset 5px 5px 15px rgba(0, 0, 0, 0.5);
+}

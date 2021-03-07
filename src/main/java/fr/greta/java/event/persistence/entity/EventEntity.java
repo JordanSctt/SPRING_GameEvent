@@ -77,6 +77,14 @@ public class EventEntity {
         this.groupe = groupe;
     }
 
+    public GameEntity getGame() {
+        return game;
+    }
+
+    public void setGame(GameEntity game) {
+        this.game = game;
+    }
+
     public List<UserEntity> getUsers() {
         return users;
     }

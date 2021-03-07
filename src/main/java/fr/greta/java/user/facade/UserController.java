@@ -24,14 +24,13 @@ import java.io.IOException;
 @Controller
 public class UserController {
 
-    private static final String USER_ROLE = "USER";
-
     @Autowired
     UserRepository userRepository;
     @Autowired
     UserDTOWrapper userDTOWrapper;
     @Autowired
     GameController gameController;
+
 
     @GetMapping("/accueil")
     public ModelAndView accueil() {
@@ -52,13 +51,13 @@ public class UserController {
 
     @PostMapping("/signin")
     public ModelAndView formSignIn(@ModelAttribute("request") UserDTO request) {
-        userRepository.save(userDTOWrapper.toEntity(request));
+        userRepository.save(userDTOWrapper.toEntitySignIn(request));
         return accueil();
     }
 
     @GetMapping("/user/accueil")
     public ModelAndView userAccueil() {
-        new ModelAndView("user-accueil");
+        /*new ModelAndView("user-accueil"); */
         return gameController.findAllWithPaging(0);
     }
 
@@ -73,29 +72,21 @@ public class UserController {
     }
 
     @PostMapping("/file/upload")
-    public ModelAndView handleFileUpload(@RequestParam("file") MultipartFile multipartFile) throws IOException {
-
+    public ModelAndView handleFileUploadUserProfil(@RequestParam("file") MultipartFile multipartFile) throws IOException {
         ClassPathResource path = new ClassPathResource("static/images/profil");
-
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String login = auth.getName();
         UserDTO userDTO = userDTOWrapper.fromEntity(userRepository.findByLogin(login));
-
         String pathStr = path.getFile().getAbsolutePath() +  "\\" + userDTO.getUuid() + ".jpg";
         File destinationFile = new File(pathStr);
         if(!destinationFile.exists()) {
             destinationFile.createNewFile();
         }
         multipartFile.transferTo(destinationFile);
-
         ModelAndView modelAndView = new ModelAndView("upload-img");
         modelAndView.addObject("userConnected", userDTO);
         modelAndView.addObject("message", "L'upload de votre photo de profil s'est éxecuté avec succés");
-
         return modelAndView;
     }
 
-    private boolean isConnected(Authentication auth) {
-        return auth.getAuthorities().contains(new SimpleGrantedAuthority(USER_ROLE));
-    }
 }

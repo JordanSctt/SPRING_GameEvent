@@ -6,6 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title>GameEvent - User accueil</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" th:href="@{/css/user-accueil.css}">
 </head>
 <body>
@@ -33,17 +34,27 @@
     </header>
     <div class="big-container">
         <div class="container">
-            <a href="/groupe/new" class="btn_new_groupe">Créer un groupe</a>
+            <div class="new_groupe">
+                <input id="toggle" type="checkbox">
+                <label class="btn_new_groupe" for="toggle">Créer un groupe</label>       
+                    <form id="expand" name="request" action="/groupe/new" method="post">               
+                        <input id="expand" class="input_groupe" type="text" name="nom" required autofocus/>
+                        <button class="btn_groupe" type="submit">Valider</button>
+                    </form>
+                <!-- <a href="/groupe/new" class="btn_new_groupe">Créer un groupe</a> -->
+            </div>
             <div class="card_groupe">
-                <div class="box">
-                    <div class="content">
+                <div class="box_groupe">
                         <a class="txt_btn" href="#">Groupe 1</a>
-                    </div>
+                        <i class="icon fa fa-bars"></i>
                 </div>
-                <div class="box">
-                    <div class="content">
+                <div class="box_groupe">
                         <a class="txt_btn" href="#">Groupe 2</a>
-                    </div>
+                        <i class="icon fa fa-bars"></i>
+                </div>
+                <div class="box_groupe">
+                        <a class="txt_btn" href="#">Groupe 3</a>
+                        <i class="icon fa fa-bars"></i>
                 </div>
             </div>
         </div>
@@ -100,53 +111,58 @@
                         </li>
                     </ul>
                 </nav>
-                <div class="nav_page">
-                    <form class="form-signin" name="request" action="/game/search" method="post">
-                        <div>
-                            <label class="h3 mb-3 font-weight-normal justify-content-center">Recherche filtrée : </label>
+                <div class="form_search">
+                    <form class="form" name="request" action="/game/search" method="post">
+                        <!-- <div> -->
+                            <label class="label_search">Rechercher : </label>
                             <input class="form-control" type="text" name="texte">
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="rechercheParTitre" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">Titre</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="rechercheParGenre" id="flexCheckDefault2">
-                            <label class="form-check-label" for="flexCheckDefault2">Commentaire</label>
-                        </div>
-                        <button class="btn btn-primary justify-content-center" type="submit">Rechercher</button>
+                        <!-- </div> 
+                        <div class="form-check">-->
+                            <input class="check-input" type="checkbox" name="rechercheParTitre" id="flexCheckDefault">
+                            <label class="check-label" for="flexCheckDefault">Titre</label>
+                        
+                            <input class="check-input" type="checkbox" name="rechercheParGenre" id="flexCheckDefault2">
+                            <label class="check-label" for="flexCheckDefault2">Genre</label>
+                        <!-- </div> -->
+                        <button class="btn_search" type="submit">Rechercher</button>
                     </form>
                 </div>
             </div>
         </div>
         <div class="container">
             <div class="card_event">
-                <div class="box">
+                <div class="box_event">
                     <div class="content">
                         <a class="txt_btn" href="#">Event 1</a>
                         <p class="txt">Groupe 1</p>
                     </div>
+                    <i class="icon_event fa fa-bars"></i>
                 </div>
-                <div class="box">
+                <div class="box_event">
                     <div class="content">
                         <a class="txt_btn" href="#">Event 2</a>
                         <p class="txt">Groupe 1</p>
                     </div>
+                    <i class="icon_event fa fa-bars"></i>
                 </div>
-                <div class="box">
+                <div class="box_event">
                     <div class="content">
                         <a class="txt_btn" href="#">Event 1</a>
                         <p class="txt">Groupe 2</p>
                     </div>
+                    <i class="icon_event fa fa-bars"></i>
                 </div>
-                <div class="box">
+                <div class="box_event">
                     <div class="content">
                         <a class="txt_btn" href="#">Event 2</a>
                         <p class="txt">Groupe 2</p>
                     </div>
+                    <i class="icon_event fa fa-bars"></i>
                 </div>
             </div>
         </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.13.0/Sortable.min.js"></script>
+    <script src="/js/user-accueil.js"></script>  
 </body>
 </html>

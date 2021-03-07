@@ -2,6 +2,7 @@ package fr.greta.java.game.persistence.entity;
 
 
 import fr.greta.java.groupe.persistence.entity.GroupeEntity;
+import fr.greta.java.user.persistence.entity.UserEntity;
 
 import javax.persistence.*;
 import java.util.List;
@@ -22,6 +23,9 @@ public class GameEntity {
 
     @ManyToMany(mappedBy = "games")
     List<GroupeEntity> groupes;
+
+    @ManyToMany(mappedBy = "games")
+    List<UserEntity> users;
 
     //----------------------------------------------
 
@@ -55,5 +59,13 @@ public class GameEntity {
 
     public void setGroupes(List<GroupeEntity> groupes) {
         this.groupes = groupes;
+    }
+
+    public List<UserEntity> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<UserEntity> users) {
+        this.users = users;
     }
 }

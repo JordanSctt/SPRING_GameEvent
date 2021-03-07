@@ -1,6 +1,7 @@
 package fr.greta.java.user.persistence.entity;
 
 import fr.greta.java.event.persistence.entity.EventEntity;
+import fr.greta.java.game.persistence.entity.GameEntity;
 import fr.greta.java.groupe.persistence.entity.GroupeEntity;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -34,6 +35,13 @@ public class UserEntity {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "event_id"))
     private List<EventEntity> events = new ArrayList<>();
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "users_games",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "game_id"))
+    private List<GameEntity> games = new ArrayList<>();
 
     //----------------------------
 
@@ -92,5 +100,13 @@ public class UserEntity {
 
     public void setEvents(List<EventEntity> events) {
         this.events = events;
+    }
+
+    public List<GameEntity> getGames() {
+        return games;
+    }
+
+    public void setGames(List<GameEntity> games) {
+        this.games = games;
     }
 }

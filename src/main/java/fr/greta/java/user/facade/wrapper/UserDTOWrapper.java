@@ -16,13 +16,22 @@ public class UserDTOWrapper {
         return new BCryptPasswordEncoder();
     }
 
-    public UserEntity toEntity(UserDTO dto) {
+    public UserEntity toEntitySignIn(UserDTO dto) {
         UserEntity entity = new UserEntity();
         entity.setId(dto.getUuid());
         entity.setLogin(dto.getLogin());
         entity.setEmail(dto.getEmail());
         entity.setPassword(passwordEncoder().encode(dto.getPassword()));
         entity.setRole("USER");
+        return entity;
+    }
+
+    public UserEntity toEntity(UserDTO dto) {
+        UserEntity entity = new UserEntity();
+        entity.setId(dto.getUuid());
+        entity.setLogin(dto.getLogin());
+        entity.setEmail(dto.getEmail());
+        entity.setRole(dto.getRole());
         return entity;
     }
 

@@ -59,8 +59,8 @@ public class GameService {
         }
         return Sort.Direction.DESC;
     }
-    //-----------------------------------------
 
+    //-----------------------------------------
 
     public CustomList<GameModel, Integer> findAllByPage(int page) {
         Sort sort = Sort.by(sortDirection(), colonne.colonneEntity());

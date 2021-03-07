@@ -85,26 +85,36 @@ nav ul:first-child li img {
                 5px 5px 15px rgba(0, 0, 0, 0.3),
                 -5px -5px 15px rgba(255, 255, 255, 0.1);
     border-radius: 15px;
-    margin: 20px 5px;
+    margin: 10px 5px;
     padding: 10px 10px;
 }
-.container .card_groupe .box {
+.container .card_groupe .box_groupe {
     display: flex;
     width: 360px;
     height: 62px;
+    padding: 10px 20px;
     background: #2a2b2f;
     border: 2px solid #1e1f23;
     border-radius: 15px;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
     transition: 0.5s;
-    justify-content: center;
+    justify-content: space-between; 
     align-items: center;
     overflow: hidden;
 }
-.container .card_groupe .box:hover {
+.container .card_groupe .box_groupe:hover {
     transform: translateX(50px);
     box-shadow: 0 40px 70px rgba(0, 0, 0, 0.5);
 } 
+
+.container .card_groupe .box_groupe .icon {
+    color: #8d8d8d;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+.container .card_groupe .box_groupe .icon:hover {
+    color: #fea701;
+}
 
 
 /* EVENTS CARDS */
@@ -122,22 +132,31 @@ nav ul:first-child li img {
     margin: 20px 5px;
     padding: 10px 10px;
 }
-.container .card_event .box {
+.container .card_event .box_event {
     display: flex;
     width: 360px;
     height: 62px;
+    padding: 10px 20px;
     background: #2a2b2f;
     border: 2px solid #1e1f23;
     border-radius: 15px;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
     transition: 0.5s;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     overflow: hidden;
 }
-.container .card_event .box:hover {
+.container .card_event .box_event:hover {
     transform: translateX(-50px);
     box-shadow: 0 40px 70px rgba(0, 0, 0, 0.5);
+}
+.container .card_event .box_event .icon_event {
+    color: #8d8d8d;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+.container .card_event .box_event .icon_event:hover {
+    color: #fea701;
 }
 
 /* GAME CARDS */
@@ -156,7 +175,7 @@ nav ul:first-child li img {
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    min-width: 380px;
+    min-width: 900px;
     height: 100%;
     box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.2),
                 inset -5px -5px 15px rgba(255, 255, 255, 0.1),
@@ -197,7 +216,7 @@ table, th, td {
     border-collapse: collapse;
     border-spacing: 5px;
     padding: 2px;
-  }
+}
 td {
     padding-right: 10px;
     min-width: 250px;
@@ -247,6 +266,76 @@ td {
 .nav_page ul li .page-item {
     color: #fea701;
 }
+.form_search {
+    display: flex;
+    max-width: 90%;
+    font-size: 18px;
+    font-weight: 600;
+    background: #232427;
+    color: #8d8d8d;
+    border-radius: 27px;
+    padding: 8 18px;
+    margin: 10px 0 10px 0;
+    box-shadow: -5px -5px 10px rgba(255, 255, 255, 0.05),
+                5px 5px 15px rgba(0, 0, 0, 0.5);
+}
+.form_search .form {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 5px;
+}
+.form_search .form label {
+    margin-right: 10px;
+    margin-left: 5px;
+}
+.form_search .form .label_search {
+    min-width: 120px;
+}
+.form_search .form input {
+    margin: 0 5px;
+}
+.form_search .form .form-control {
+    width: 200px;
+    background: #232427;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    padding: 5px 15px;
+    margin-right: 10px;
+    font-size: 18px;
+    color: #fea701;
+    box-shadow: inset -2px -2px 6px rgba(255, 255, 255, 0.1),
+                inset 2px 2px 6px rgba(0, 0, 0, 0.8);
+}
+.form_search .form .check-input {
+    background: #232427;
+    border: none;
+    outline: none; 
+    border-radius: 40px;
+    margin: 5px 5px;
+    box-shadow: inset -2px -2px 6px rgba(255, 255, 255, 0.1),
+                inset 2px 2px 6px rgba(0, 0, 0, 0.8);
+}
+.form_search .form .btn_search {
+    text-decoration: none;
+    width: 100%;
+    font-size: 18px;
+    background: #232427;
+    border-radius: 27px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: #8d8d8d;
+    padding: 8 10px;
+    box-shadow: -5px -5px 10px rgba(255, 255, 255, 0.05),
+                5px 5px 15px rgba(0, 0, 0, 0.5);
+}
+.form_search .form .btn_search:active {
+    color: #fea701;
+    box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05),
+                inset 5px 5px 15px rgba(0, 0, 0, 0.5);
+}
 
 
 /* CARD USER */
@@ -270,6 +359,7 @@ td {
 }
 .txt_btn_name {
     color: #fea701;
+    letter-spacing: 1px;
     font-weight: 700;
     font-size: 1.2em;
     margin-left: 10px;
@@ -299,10 +389,20 @@ td {
     font-size: 0.8em;
     transition: all 0.2s ease-in-out;
 }
-.btn_new_groupe {
+
+/* BTN NEW GROUPE */
+.new_groupe {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin: 5px;
+    padding: 5px;
+}
+.new_groupe .btn_new_groupe {
     text-decoration: none;
     text-align: center;
-    width: 80%;
+    min-width: 80%;
     font-size: 18px;
     font-weight: 600;
     background: #232427;
@@ -315,7 +415,77 @@ td {
     box-shadow: -5px -5px 10px rgba(255, 255, 255, 0.05),
                 5px 5px 15px rgba(0, 0, 0, 0.5);
 }
-.btn_new_groupe:active {
+.new_groupe .btn_new_groupe:active {
+    color: #fea701;
+    box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05),
+                inset 5px 5px 15px rgba(0, 0, 0, 0.5);
+}
+.new_groupe #toggle{
+    display: none;
+    visibility: hidden;
+}
+#expand {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.5s;
+}
+#toggle:checked ~ #expand {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    height: 100px;
+    width: 350px;
+    margin: 10px;
+    border-radius: 15px;
+    box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.2),
+                inset -5px -5px 15px rgba(255, 255, 255, 0.1),
+                5px 5px 15px rgba(0, 0, 0, 0.3),
+                -5px -5px 15px rgba(255, 255, 255, 0.1);
+}
+#expand .input_groupe {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.5s;
+}
+#toggle:checked ~ #expand .input_groupe {
+    width: 80%;
+    height: 35px;
+    background: #232427;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    padding: 5px 15px;
+    margin: 8px;
+    font-size: 18px;
+    color: #fea701;
+    box-shadow: inset -2px -2px 6px rgba(255, 255, 255, 0.1),
+                inset 2px 2px 6px rgba(0, 0, 0, 0.8); 
+}
+#expand .btn_groupe {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.5s;
+}
+#toggle:checked ~ #expand .btn_groupe {
+    text-decoration: none;
+    text-align: center;
+    width: 50%;
+    height: 35px;
+    font-size: 18px;
+    font-weight: 600;
+    background: #232427;
+    border-radius: 27px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: #8d8d8d;
+    margin: 8px;
+    padding: 5px;
+    box-shadow: -5px -5px 10px rgba(255, 255, 255, 0.05),
+                5px 5px 15px rgba(0, 0, 0, 0.5); 
+}
+#toggle:checked ~ #expand .btn_groupe:active {
     color: #fea701;
     box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05),
                 inset 5px 5px 15px rgba(0, 0, 0, 0.5);

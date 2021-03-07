@@ -40,6 +40,14 @@ public class GroupeEntity {
     //------------------------------------------
 
 
+    public GroupeEntity() {
+    }
+
+    public GroupeEntity(String nom, List<UserEntity> users) {
+        this.nom = nom;
+        this.users = users;
+    }
+
     public String getId() {
         return id;
     }

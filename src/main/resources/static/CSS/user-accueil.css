@@ -116,7 +116,6 @@ nav ul:first-child li img {
     color: #fea701;
 }
 
-
 /* EVENTS CARDS */
 
 .container .card_event {
@@ -376,7 +375,7 @@ td {
     text-decoration: none;
     color: #8d8d8d;
     font-weight: 700;
-    font-size: 1.2em;
+    font-size: 1.1em;
     transition: all 0.2s ease-in-out;
 }
 .txt_btn:hover {

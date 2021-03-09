@@ -3,6 +3,7 @@ package fr.greta.java.game.persistence.entity;
 
 import fr.greta.java.groupe.persistence.entity.GroupeEntity;
 import fr.greta.java.user.persistence.entity.UserEntity;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,9 +14,9 @@ import java.util.List;
 public class GameEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", unique = true, nullable = false)
-    private int id;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    private String id;
 
     private String titre;
 
@@ -29,11 +30,11 @@ public class GameEntity {
 
     //----------------------------------------------
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

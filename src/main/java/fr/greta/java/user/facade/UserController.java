@@ -1,7 +1,14 @@
 package fr.greta.java.user.facade;
 
 
+import fr.greta.java.config.generic.exception.ApplicationCommunicationException;
+import fr.greta.java.game.CustomList;
+import fr.greta.java.game.domain.GameService;
+import fr.greta.java.game.domain.model.GameModel;
 import fr.greta.java.game.facade.GameController;
+import fr.greta.java.game.facade.wrapper.GameDTOWrapper;
+import fr.greta.java.groupe.domain.Wrapper.GroupeListDTOWrapper;
+import fr.greta.java.groupe.domain.service.GroupeService;
 import fr.greta.java.user.facade.dto.UserDTO;
 import fr.greta.java.user.facade.wrapper.UserDTOWrapper;
 import fr.greta.java.user.persistence.repository.UserRepository;
@@ -25,11 +32,19 @@ import java.io.IOException;
 public class UserController {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
-    UserDTOWrapper userDTOWrapper;
+    private UserDTOWrapper userDTOWrapper;
     @Autowired
-    GameController gameController;
+    private GameController gameController;
+    @Autowired
+    private GroupeListDTOWrapper listDTOWrapper;
+    @Autowired
+    private GroupeService groupeService;
+    @Autowired
+    private GameService gameService;
+    @Autowired
+    private GameDTOWrapper wrapperDTO;
 
 
     @GetMapping("/accueil")
@@ -56,9 +71,28 @@ public class UserController {
     }
 
     @GetMapping("/user/accueil")
-    public ModelAndView userAccueil() {
-        /*new ModelAndView("user-accueil"); */
-        return gameController.findAllWithPaging(0);
+    public ModelAndView userAccueil () throws ApplicationCommunicationException {
+        return userAccueilWithPage(0);
+    }
+
+    @GetMapping("/user/accueil/page")
+    public ModelAndView userAccueilWithPage(@RequestParam int page) throws ApplicationCommunicationException {
+
+        ModelAndView modelAndView = new ModelAndView("user-accueil");
+
+        CustomList<GameModel, Integer> all = gameService.findAllByPage(page);
+        modelAndView.addObject("games", wrapperDTO.fromModels(all.getList()));
+        modelAndView.addObject("currentPage", page);
+        modelAndView.addObject("totalPage", all.getValue());
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName();
+        UserDTO userDTO = userDTOWrapper.fromEntity(userRepository.findByLogin(name));
+        modelAndView.addObject("userConnected", userDTO);
+
+        modelAndView.addObject("groupes", listDTOWrapper.fromModels(groupeService.findAllByUserId(userDTO.getUuid())));
+
+        return modelAndView;
     }
 
     @GetMapping("/file/upload")

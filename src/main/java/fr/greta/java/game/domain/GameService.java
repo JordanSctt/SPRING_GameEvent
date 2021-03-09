@@ -79,7 +79,7 @@ public class GameService {
         return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.get(colonne.colonneEntity()), "%" + value + "%");
     }
 
-    public GameModel findById(int id) {
+    public GameModel findById(String id) {
         return repository.findById(id)
                 .map(entity -> wrapperModel.fromEntity(entity))
                 .orElse(null);

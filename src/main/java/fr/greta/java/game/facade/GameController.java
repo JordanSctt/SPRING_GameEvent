@@ -1,6 +1,11 @@
 package fr.greta.java.game.facade;
 
 
+import fr.greta.java.config.generic.exception.ApplicationCommunicationException;
+import fr.greta.java.config.generic.exception.ApplicationServiceException;
+import fr.greta.java.groupe.domain.Wrapper.GroupeListDTOWrapper;
+import fr.greta.java.groupe.domain.service.GroupeService;
+import fr.greta.java.user.facade.UserController;
 import fr.greta.java.user.facade.dto.UserDTO;
 import fr.greta.java.user.facade.wrapper.UserDTOWrapper;
 import fr.greta.java.user.persistence.repository.UserRepository;
@@ -32,33 +37,30 @@ public class GameController {
 
     @Autowired
     private GameService gameService;
-
     @Autowired
     private GameDTOWrapper wrapperDTO;
-
     @Autowired
     private GameRepository gameRepository;
-
     @Autowired
     private UserDTOWrapper userDTOWrapper;
-
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private GroupeService groupeService;
+    @Autowired
+    private GroupeListDTOWrapper listDTOWrapper;
+    @Autowired
+    private UserController userController;
 
-
-    @GetMapping("/list")
-    public ModelAndView list() {
-        return findAllWithPaging(0);
-    }
 
     @GetMapping("/tri")
-    public ModelAndView pageTri(@RequestParam String colonne) {
+    public ModelAndView pageTri(@RequestParam String colonne) throws ApplicationCommunicationException {
         gameService.setColonne(colonne);
-        return findAllWithPaging(0);
+        return userController.userAccueilWithPage(0);
     }
 
     @PostMapping("/search")
-    public ModelAndView search(@ModelAttribute("request") SearchRequestDTO request) {
+    public ModelAndView search(@ModelAttribute("request") SearchRequestDTO request) throws ApplicationCommunicationException {
         gameService.cleanColonnes();
 
         SearchGame search = new SearchGame();
@@ -70,39 +72,20 @@ public class GameController {
             search.getColonnes().add(GameColonne.GENRE);
         }
         gameService.setShearch(search);
-        return findAllWithPaging(0);
-    }
-
-    @GetMapping("/page")
-    public ModelAndView findAllWithPaging(@RequestParam int page) {
-        CustomList<GameModel, Integer> all = gameService.findAllByPage(page);
-
-        ModelAndView modelAndView = new ModelAndView("user-accueil"); /* "game-list" */
-        modelAndView.addObject("games", wrapperDTO.fromModels(all.getList()));
-        modelAndView.addObject("currentPage", page);
-        modelAndView.addObject("totalPage", all.getValue());
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String name = auth.getName();
-        modelAndView.addObject("nameUserConnected", name);
-
-        UserDTO userDTO = userDTOWrapper.fromEntity(userRepository.findByLogin(name));
-        modelAndView.addObject("userConnected", userDTO);
-
-        return modelAndView;
+        return userController.userAccueilWithPage(0);
     }
 
     @GetMapping("/admin/edit")
-    public ModelAndView displayFormEdit(@RequestParam int id) {
+    public ModelAndView displayFormEdit(@RequestParam String id) {
         ModelAndView modelAndView = new ModelAndView("user-accueil"); /* "game-list" */
         modelAndView.addObject("game", wrapperDTO.fromModel(gameService.findById(id)));
         return modelAndView;
     }
 
     @PostMapping("/admin/edit")
-    public ModelAndView edit(@ModelAttribute("request") GameDTO request) {
+    public ModelAndView edit(@ModelAttribute("request") GameDTO request) throws ApplicationCommunicationException {
         gameService.save(wrapperDTO.toModel(request));
-        return findAllWithPaging(1);
+        return userController.userAccueilWithPage(0);
     }
 
     @GetMapping("/new")
@@ -113,11 +96,11 @@ public class GameController {
     }
 
     @GetMapping("/admin/delete")
-    public ModelAndView delete(@RequestParam int id) {
+    public ModelAndView delete(@RequestParam String id) throws ApplicationCommunicationException {
         GameDTO game = new GameDTO();
         game.setId(id);
         gameService.delete(wrapperDTO.toModel(game));
-        return findAllWithPaging(1);
+        return userController.userAccueilWithPage(0);
     }
 
     @GetMapping("/search")

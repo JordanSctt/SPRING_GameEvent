@@ -41,19 +41,12 @@
                         <input id="expand" class="input_groupe" type="text" name="nom" required autofocus/>
                         <button class="btn_groupe" type="submit">Valider</button>
                     </form>
-                <!-- <a href="/groupe/new" class="btn_new_groupe">Créer un groupe</a> -->
             </div>
-            <div class="card_groupe">
-                <div class="box_groupe">
-                        <a class="txt_btn" href="#">Groupe 1</a>
-                        <i class="icon fa fa-bars"></i>
-                </div>
-                <div class="box_groupe">
-                        <a class="txt_btn" href="#">Groupe 2</a>
-                        <i class="icon fa fa-bars"></i>
-                </div>
-                <div class="box_groupe">
-                        <a class="txt_btn" href="#">Groupe 3</a>
+            <div class="card_groupe"> 
+                <div class="box_groupe" th:each="groupe : ${groupes}">
+                        <a class="txt_btn" href="#"> 
+                            <p class="txt_btn" th:text="${groupe.nom}"/> 
+                        </a> 
                         <i class="icon fa fa-bars"></i>
                 </div>
             </div>
@@ -64,7 +57,7 @@
                 <a href="/file/upload" title="Changer de photo de profil">
                     <img class="img" alt="Aucune photo de profil" th:src="'/images/profil/' + ${userConnected.uuid} + '.jpg'"/>
                 </a>
-                <span class="txt_btn_name" th:text="${nameUserConnected}"></span>
+                <span class="txt_btn_name" th:text="${userConnected.login}"></span>
             </div>
             <div class="card_game">
                 <div class="box_game">
@@ -99,15 +92,15 @@
                 <nav class="nav_page">
                     <ul>           
                         <li th:class="${currentPage eq 0}? 'page-item disabled' : 'page-item' "> <!--class="page-item" -->
-                            <a  th:if="${currentPage > 0}" th:href="'/game/page?page=' + (${currentPage } - 1)" >Previous</a> <!-- th:if="${currentPage eq 0}" -->
+                            <a th:if="${currentPage > 0}" th:href="'/user/accueil/page?page=' + (${currentPage } - 1)" >Previous</a> <!-- th:if="${currentPage eq 0}" -->
                         </li>
-                        <li ><a th:class="${currentPage eq 0}? 'page-item'" th:href="'/game/page?page=0'">1</a></li>
-                        <li ><a th:class="${currentPage eq 1}? 'page-item'" th:href="'/game/page?page=1'">2</a></li>
-                        <li ><a th:class="${currentPage eq 2}? 'page-item'" th:href="'/game/page?page=2'" >3</a></li>
-                        <li ><a th:class="${currentPage eq 3}? 'page-item'" th:href="'/game/page?page=3'">4</a></li>
-                        <li ><a th:class="${currentPage eq 4}? 'page-item'" th:href="'/game/page?page=4'">5</a></li>
+                        <li ><a th:class="${currentPage eq 0}? 'page-item'" th:href="'/user/accueil/page?page=0'">1</a></li>
+                        <li ><a th:class="${currentPage eq 1}? 'page-item'" th:href="'/user/accueil/page?page=1'">2</a></li>
+                        <li ><a th:class="${currentPage eq 2}? 'page-item'" th:href="'/user/accueil/page?page=2'" >3</a></li>
+                        <li ><a th:class="${currentPage eq 3}? 'page-item'" th:href="'/user/accueil/page?page=3'">4</a></li>
+                        <li ><a th:class="${currentPage eq 4}? 'page-item'" th:href="'/user/accueil/page?page=4'">5</a></li>
                         <li>
-                            <a  th:if="((${currentPage} + 1) < ${totalPage})" th:href="'/game/page?page=' + (${currentPage} + 1)">Next</a>
+                            <a th:if="((${currentPage} + 1) < ${totalPage})" th:href="'/user/accueil/page?page=' + (${currentPage} + 1)">Next</a>
                         </li>
                     </ul>
                 </nav>

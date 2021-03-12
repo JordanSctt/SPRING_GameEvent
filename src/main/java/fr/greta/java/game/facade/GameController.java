@@ -2,16 +2,8 @@ package fr.greta.java.game.facade;
 
 
 import fr.greta.java.config.generic.exception.ApplicationCommunicationException;
-import fr.greta.java.config.generic.exception.ApplicationServiceException;
-import fr.greta.java.groupe.domain.Wrapper.GroupeListDTOWrapper;
-import fr.greta.java.groupe.domain.service.GroupeService;
 import fr.greta.java.user.facade.UserController;
-import fr.greta.java.user.facade.dto.UserDTO;
-import fr.greta.java.user.facade.wrapper.UserDTOWrapper;
-import fr.greta.java.user.persistence.repository.UserRepository;
-import fr.greta.java.game.CustomList;
 import fr.greta.java.game.domain.GameColonne;
-import fr.greta.java.game.domain.model.GameModel;
 import fr.greta.java.game.domain.GameService;
 import fr.greta.java.game.domain.SearchGame;
 import fr.greta.java.game.facade.dto.GameDTO;
@@ -24,9 +16,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -41,14 +30,6 @@ public class GameController {
     private GameDTOWrapper wrapperDTO;
     @Autowired
     private GameRepository gameRepository;
-    @Autowired
-    private UserDTOWrapper userDTOWrapper;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private GroupeService groupeService;
-    @Autowired
-    private GroupeListDTOWrapper listDTOWrapper;
     @Autowired
     private UserController userController;
 
@@ -77,7 +58,7 @@ public class GameController {
 
     @GetMapping("/admin/edit")
     public ModelAndView displayFormEdit(@RequestParam String id) {
-        ModelAndView modelAndView = new ModelAndView("user-accueil"); /* "game-list" */
+        ModelAndView modelAndView = new ModelAndView("user-accueil");
         modelAndView.addObject("game", wrapperDTO.fromModel(gameService.findById(id)));
         return modelAndView;
     }
@@ -90,7 +71,7 @@ public class GameController {
 
     @GetMapping("/new")
     public ModelAndView displayFormNew() {
-        ModelAndView modelAndView = new ModelAndView("user-accueil"); /* "game-list" */
+        ModelAndView modelAndView = new ModelAndView("user-accueil");
         modelAndView.addObject("game", new GameDTO());
         return modelAndView;
     }
@@ -110,7 +91,7 @@ public class GameController {
         Sort sort = Sort.by(Sort.Direction.ASC, "title");
         Page<GameEntity> all = gameRepository.findAll(spec, PageRequest.of(page, 10, sort));
 
-        ModelAndView modelAndView = new ModelAndView("user-accueil"); /* "game-list" */
+        ModelAndView modelAndView = new ModelAndView("user-accueil");
         modelAndView.addObject("games", all.getContent());
         modelAndView.addObject("paging", (page+1) + " / " + all.getTotalPages());
         return modelAndView;

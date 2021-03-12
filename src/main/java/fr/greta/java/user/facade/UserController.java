@@ -15,7 +15,6 @@ import fr.greta.java.user.persistence.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -71,7 +70,7 @@ public class UserController {
     }
 
     @GetMapping("/user/accueil")
-    public ModelAndView userAccueil () throws ApplicationCommunicationException {
+    public ModelAndView userAccueil() throws ApplicationCommunicationException {
         return userAccueilWithPage(0);
     }
 
@@ -80,7 +79,7 @@ public class UserController {
 
         ModelAndView modelAndView = new ModelAndView("user-accueil");
 
-        CustomList<GameModel, Integer> all = gameService.findAllByPage(page);
+        CustomList<GameModel, Integer> all = gameService.findAllGameByPage(page);
         modelAndView.addObject("games", wrapperDTO.fromModels(all.getList()));
         modelAndView.addObject("currentPage", page);
         modelAndView.addObject("totalPage", all.getValue());

@@ -5,7 +5,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>GameEvent - User accueil</title>
+    <title>GameEvent - Groupe accueil</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" th:href="@{/css/user-accueil.css}">
 </head>
@@ -36,19 +36,19 @@
         <div class="container">
             <div class="new_groupe">
                 <input id="toggle" type="checkbox">
-                <label class="btn_new_groupe" for="toggle">Créer un groupe</label>       
+                <label class="btn_new_groupe" for="toggle">Ajouter un amis</label>       
                     <form id="expand" name="request" action="/groupe/new" method="post">               
                         <input id="expand" class="input_groupe" type="text" name="nom" required autofocus/>
-                        <button class="btn_groupe" type="submit">Valider</button>
+                        <button class="btn_groupe" type="submit">Inviter</button>
                     </form>
             </div>
             <div class="card_groupe"> 
-                <div class="box_groupe" th:each="groupe : ${groupes}">
+                <!-- <div class="box_groupe" th:each="groupe : ${groupes}">
                         <a class="txt_btn" href="/groupe/accueil"> 
                             <p class="txt_btn" th:text="${groupe.nom}"/> 
                         </a> 
                         <i class="icon fa fa-bars"></i>
-                </div>
+                </div> -->
             </div>
         </div>
 
@@ -105,7 +105,7 @@
                     </ul>
                 </nav>
                 <div class="form_search">
-                    <form class="form" name="request" action="/game/search" method="post">
+                    <form class="form" name="request" action="/game/search" method="post">                       
                             <label class="label_search">Rechercher : </label>
                             <input class="form-control" type="text" name="texte">
 
@@ -114,7 +114,7 @@
                         
                             <input class="check-input" type="checkbox" name="rechercheParGenre" id="flexCheckDefault2">
                             <label class="check-label" for="flexCheckDefault2">Genre</label>
-                            
+
                         <button class="btn_search" type="submit">Rechercher</button>
                     </form>
                 </div>
@@ -125,31 +125,17 @@
                 <div class="box_event">
                     <div class="content">
                         <a class="txt_btn" href="#">Event 1</a>
-                        <p class="txt">Groupe 1</p>
+                        <p class="txt">Date</p>
                     </div>
                     <i class="icon_event fa fa-bars"></i>
                 </div>
                 <div class="box_event">
                     <div class="content">
                         <a class="txt_btn" href="#">Event 2</a>
-                        <p class="txt">Groupe 1</p>
+                        <p class="txt">Date</p>
                     </div>
                     <i class="icon_event fa fa-bars"></i>
-                </div>
-                <div class="box_event">
-                    <div class="content">
-                        <a class="txt_btn" href="#">Event 1</a>
-                        <p class="txt">Groupe 2</p>
-                    </div>
-                    <i class="icon_event fa fa-bars"></i>
-                </div>
-                <div class="box_event">
-                    <div class="content">
-                        <a class="txt_btn" href="#">Event 2</a>
-                        <p class="txt">Groupe 2</p>
-                    </div>
-                    <i class="icon_event fa fa-bars"></i>
-                </div>
+                </div>               
             </div>
         </div>
     </div>

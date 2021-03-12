@@ -62,7 +62,7 @@ public class GameService {
 
     //-----------------------------------------
 
-    public CustomList<GameModel, Integer> findAllByPage(int page) {
+    public CustomList<GameModel, Integer> findAllGameByPage(int page) {
         Sort sort = Sort.by(sortDirection(), colonne.colonneEntity());
         Pageable of = PageRequest.of(page, NB_PAR_PAGE, sort);
         if (search.isEmpty()) {

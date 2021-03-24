@@ -87,17 +87,15 @@ public class UserController {
         modelAndView.addObject("currentPage", page);
         modelAndView.addObject("totalPage", allGames.getValue());
 
-        /*CustomList<GameModel, Integer> allGamesUser = gameService.findAllGamesOfUserWithPage(page, userService.findUser().getId());*/
-        List<GameModel> allGamesUser = gameService.findAllGamesOfUser(userService.findUser().getId());
-        modelAndView.addObject("gamesUser", wrapperDTO.fromModels(allGamesUser));
+        CustomList<GameModel, Integer> allGamesUser = gameService.findAllGamesOfUserWithPage(userService.findUser().getId(), page);
+        modelAndView.addObject("gamesUser", wrapperDTO.fromModels(allGamesUser.getList()));
         /*
         modelAndView.addObject("currentPage", page);
-        modelAndView.addObject("totalPage", allGamesUser.getValue());
+        modelAndView.addObject("totalPageGameUser", allGamesUser.getValue());
          */
 
         UserDTO userDTO = userDTOWrapper.fromEntity(userRepository.findByLogin(userService.findUser().getLogin()));
         modelAndView.addObject("userConnected", userDTO);
-
         modelAndView.addObject("groupes", listDTOWrapper.fromModels(groupeService.findAllByUserId(userDTO.getUuid())));
 
         return modelAndView;

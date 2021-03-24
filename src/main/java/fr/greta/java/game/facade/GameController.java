@@ -50,10 +50,39 @@ public class GameController {
     private GameModelWrapper wrapperModel;
 
 
+    @GetMapping("/add")
+    public ModelAndView saveGameForUser(@RequestParam String id) throws ApplicationCommunicationException, ApplicationServiceException {
+        gameService.saveGameForUser(id);
+        return userController.userAccueilWithPage(0);
+    }
+
+    @GetMapping("/delete")
+    public ModelAndView deleteGameOfUser(@RequestParam String id) throws ApplicationServiceException, ApplicationCommunicationException {
+        gameService.deleteGameOfUser(id);
+        return userController.userAccueilWithPage(0);
+    }
+
     @GetMapping("/tri")
     public ModelAndView pageTri(@RequestParam String colonne) throws ApplicationCommunicationException, ApplicationServiceException {
         gameService.setColonne(colonne);
         return userController.userAccueilWithPage(0);
+    }
+
+    @GetMapping("/search")
+    public ModelAndView search(@PathVariable(value = "title") String title, int page) {
+        Specification<GameEntity> spec = titleIs(title);
+
+        Sort sort = Sort.by(Sort.Direction.ASC, "title");
+        Page<GameEntity> all = gameRepository.findAll(spec, PageRequest.of(page, 10, sort));
+
+        ModelAndView modelAndView = new ModelAndView("user-accueil");
+        modelAndView.addObject("games", all.getContent());
+        modelAndView.addObject("paging", (page+1) + " / " + all.getTotalPages());
+        return modelAndView;
+    }
+
+    public Specification<GameEntity> titleIs(String value) {
+        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.get("title"), "%" + value + "%");
     }
 
     @PostMapping("/search")
@@ -72,16 +101,9 @@ public class GameController {
         return userController.userAccueilWithPage(0);
     }
 
-    @GetMapping("/add")
-    public ModelAndView saveGameForUser(@RequestParam String id) throws ApplicationCommunicationException, ApplicationServiceException {
-        GameDTO game = wrapperDTO.fromModel(Objects.requireNonNull(gameRepository.findById(id)
-                                            .map(entity -> wrapperModel.fromEntity(entity))
-                                            .orElse(null)));
-        UserEntity user = userService.findUser();
-        user.setGames(List.of(wrapperDTO.toEntity(game)));
-        userRepository.save(user);
-        return userController.userAccueilWithPage(0);
-    }
+
+
+    //---------ADMIN CONTROLER --------------
 
     @GetMapping("/admin/edit")
     public ModelAndView displayFormEdit(@RequestParam String id) {
@@ -109,22 +131,5 @@ public class GameController {
         game.setId(id);
         gameService.delete(wrapperDTO.toModel(game));
         return userController.userAccueilWithPage(0);
-    }
-
-    @GetMapping("/search")
-    public ModelAndView search(@PathVariable(value = "title") String title, int page) {
-        Specification<GameEntity> spec = titleIs(title);
-
-        Sort sort = Sort.by(Sort.Direction.ASC, "title");
-        Page<GameEntity> all = gameRepository.findAll(spec, PageRequest.of(page, 10, sort));
-
-        ModelAndView modelAndView = new ModelAndView("user-accueil");
-        modelAndView.addObject("games", all.getContent());
-        modelAndView.addObject("paging", (page+1) + " / " + all.getTotalPages());
-        return modelAndView;
-    }
-
-    public Specification<GameEntity> titleIs(String value) {
-        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.get("title"), "%" + value + "%");
     }
 }

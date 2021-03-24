@@ -82,7 +82,10 @@
             
                                 <td>
                                     <div><a type="button" class="txt_btn_table"
-                                        th:href="'/game/manage?id=' + ${game.id}">Gérer ce jeux</a></div>
+                                        th:href="'/game/manage?id=' + ${gameUser.id}">Gérer ce jeux /</a>                               
+                                        <a type="button" class="txt_btn_table"
+                                        th:href="'/game/delete?id=' + ${gameUser.id}"> Retirer ce jeux</a>
+                                    </div>
                                     <!-- <div sec:authorize="hasAuthority('ADMIN')"><a type="button" class="txt_btn_table"
                                             th:href="'/game/admin/edit?id=' + ${game.id}">éditer</a></div>
                                     <div sec:authorize="hasAuthority('ADMIN')"><a type="button" class="txt_btn_table"
@@ -103,7 +106,7 @@
                         <li ><a th:class="${currentPage eq 3}? 'page-item'" th:href="'/user/accueil/page?page=3'">4</a></li>
                         <li ><a th:class="${currentPage eq 4}? 'page-item'" th:href="'/user/accueil/page?page=4'">5</a></li>
                         <li>
-                            <a th:if="((${currentPage} + 1) < ${totalPage})" th:href="'/user/accueil/page?page=' + (${currentPage} + 1)">Next</a>
+                            <a th:if="((${currentPage} + 1) < ${totalPageGameUser})" th:href="'/user/accueil/page?page=' + (${currentPage} + 1)">Next</a>
                         </li>
                     </ul>
                 </nav>
@@ -144,7 +147,7 @@
             
                                 <td>
                                     <div><a type="button" class="txt_btn_table"
-                                        th:href="'/game/add?id=' + ${game.id}">ajouter à mes jeux</a></div>
+                                        th:href="'/game/add?id=' + ${game.id}">Ajouter à mes jeux</a></div>
                                     <!-- <div sec:authorize="hasAuthority('ADMIN')"><a type="button" class="txt_btn_table"
                                             th:href="'/game/admin/edit?id=' + ${game.id}">éditer</a></div>
                                     <div sec:authorize="hasAuthority('ADMIN')"><a type="button" class="txt_btn_table"

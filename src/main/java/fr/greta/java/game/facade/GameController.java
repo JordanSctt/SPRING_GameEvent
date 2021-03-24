@@ -2,6 +2,9 @@ package fr.greta.java.game.facade;
 
 
 import fr.greta.java.config.generic.exception.ApplicationCommunicationException;
+import fr.greta.java.config.generic.exception.ApplicationServiceException;
+import fr.greta.java.game.domain.wrapper.GameModelWrapper;
+import fr.greta.java.user.domain.service.UserService;
 import fr.greta.java.user.facade.UserController;
 import fr.greta.java.game.domain.GameColonne;
 import fr.greta.java.game.domain.GameService;
@@ -11,6 +14,8 @@ import fr.greta.java.game.facade.dto.SearchRequestDTO;
 import fr.greta.java.game.facade.wrapper.GameDTOWrapper;
 import fr.greta.java.game.persistence.entity.GameEntity;
 import fr.greta.java.game.persistence.repository.GameRepository;
+import fr.greta.java.user.persistence.entity.UserEntity;
+import fr.greta.java.user.persistence.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +24,11 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Controller
 @RequestMapping(value = "/game")
@@ -31,17 +41,23 @@ public class GameController {
     @Autowired
     private GameRepository gameRepository;
     @Autowired
+    private UserRepository userRepository;
+    @Autowired
     private UserController userController;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private GameModelWrapper wrapperModel;
 
 
     @GetMapping("/tri")
-    public ModelAndView pageTri(@RequestParam String colonne) throws ApplicationCommunicationException {
+    public ModelAndView pageTri(@RequestParam String colonne) throws ApplicationCommunicationException, ApplicationServiceException {
         gameService.setColonne(colonne);
         return userController.userAccueilWithPage(0);
     }
 
     @PostMapping("/search")
-    public ModelAndView search(@ModelAttribute("request") SearchRequestDTO request) throws ApplicationCommunicationException {
+    public ModelAndView search(@ModelAttribute("request") SearchRequestDTO request) throws ApplicationCommunicationException, ApplicationServiceException {
         gameService.cleanColonnes();
 
         SearchGame search = new SearchGame();
@@ -56,6 +72,17 @@ public class GameController {
         return userController.userAccueilWithPage(0);
     }
 
+    @GetMapping("/add")
+    public ModelAndView saveGameForUser(@RequestParam String id) throws ApplicationCommunicationException, ApplicationServiceException {
+        GameDTO game = wrapperDTO.fromModel(Objects.requireNonNull(gameRepository.findById(id)
+                                            .map(entity -> wrapperModel.fromEntity(entity))
+                                            .orElse(null)));
+        UserEntity user = userService.findUser();
+        user.setGames(List.of(wrapperDTO.toEntity(game)));
+        userRepository.save(user);
+        return userController.userAccueilWithPage(0);
+    }
+
     @GetMapping("/admin/edit")
     public ModelAndView displayFormEdit(@RequestParam String id) {
         ModelAndView modelAndView = new ModelAndView("user-accueil");
@@ -64,7 +91,7 @@ public class GameController {
     }
 
     @PostMapping("/admin/edit")
-    public ModelAndView edit(@ModelAttribute("request") GameDTO request) throws ApplicationCommunicationException {
+    public ModelAndView edit(@ModelAttribute("request") GameDTO request) throws ApplicationCommunicationException, ApplicationServiceException {
         gameService.save(wrapperDTO.toModel(request));
         return userController.userAccueilWithPage(0);
     }
@@ -77,7 +104,7 @@ public class GameController {
     }
 
     @GetMapping("/admin/delete")
-    public ModelAndView delete(@RequestParam String id) throws ApplicationCommunicationException {
+    public ModelAndView delete(@RequestParam String id) throws ApplicationCommunicationException, ApplicationServiceException {
         GameDTO game = new GameDTO();
         game.setId(id);
         gameService.delete(wrapperDTO.toModel(game));

@@ -44,7 +44,8 @@
             </div>
             <div class="card_groupe"> 
                 <div class="box_groupe" th:each="groupe : ${groupes}">
-                        <a class="txt_btn" href="/groupe/accueil"> 
+                    <img class="img_groupe" alt="Aucune photo de profil" th:src="'/images/groupe/' + ${groupe.uuid} + '.jpg'"/>
+                        <a class="txt_btn" th:href="'/groupe/accueil?id=' + ${groupe.uuid}"> 
                             <p class="txt_btn" th:text="${groupe.nom}"/> 
                         </a> 
                         <i class="icon fa fa-bars"></i>
@@ -54,12 +55,76 @@
 
         <div class="container_game">
             <div class="btn_user">
-                <a href="/file/upload" title="Changer de photo de profil">
+                <a href="/file/upload/user" title="Changer de photo de profil">
                     <img class="img" alt="Aucune photo de profil" th:src="'/images/profil/' + ${userConnected.uuid} + '.jpg'"/>
                 </a>
                 <span class="txt_btn_name" th:text="${userConnected.login}"></span>
             </div>
-            <div class="card_game">
+
+            <div class="card_game_user">
+                <h2 class="txt_game_user">Vos jeux :</h2>
+                <div class="box_game">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col"><a class="txt_btn_table" >Titre</a></th> <!-- href="/game/tri?colonne=titre" -->
+                                <th scope="col"><a class="txt_btn_table" >Genre</a></th> <!-- href="/game/tri?colonne=genre" -->
+                                <div sec:authorize="hasAuthority('ADMIN')">
+                                    <th scope="col">Actions</th>
+                                </div>
+                            </tr>
+            
+                        </thead>
+                        <tbody>
+                            <tr th:each="gameUser: ${gamesUser}">
+                                <td class="h6" th:text="${gameUser.titre}" />
+                                <td th:text="${gameUser.genre}" />
+            
+                                <td>
+                                    <div><a type="button" class="txt_btn_table"
+                                        th:href="'/game/manage?id=' + ${game.id}">Gérer ce jeux</a></div>
+                                    <!-- <div sec:authorize="hasAuthority('ADMIN')"><a type="button" class="txt_btn_table"
+                                            th:href="'/game/admin/edit?id=' + ${game.id}">éditer</a></div>
+                                    <div sec:authorize="hasAuthority('ADMIN')"><a type="button" class="txt_btn_table"
+                                            th:href="'/game/admin/delete?id=' + ${game.id}">supprimer</a></div> -->
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- <nav class="nav_page">
+                    <ul>           
+                        <li th:class="${currentPage eq 0}? 'page-item disabled' : 'page-item' "> 
+                            <a th:if="${currentPage > 0}" th:href="'/user/accueil/page?page=' + (${currentPage } - 1)" >Previous</a> 
+                        </li>
+                        <li ><a th:class="${currentPage eq 0}? 'page-item'" th:href="'/user/accueil/page?page=0'">1</a></li>
+                        <li ><a th:class="${currentPage eq 1}? 'page-item'" th:href="'/user/accueil/page?page=1'">2</a></li>
+                        <li ><a th:class="${currentPage eq 2}? 'page-item'" th:href="'/user/accueil/page?page=2'" >3</a></li>
+                        <li ><a th:class="${currentPage eq 3}? 'page-item'" th:href="'/user/accueil/page?page=3'">4</a></li>
+                        <li ><a th:class="${currentPage eq 4}? 'page-item'" th:href="'/user/accueil/page?page=4'">5</a></li>
+                        <li>
+                            <a th:if="((${currentPage} + 1) < ${totalPage})" th:href="'/user/accueil/page?page=' + (${currentPage} + 1)">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="form_search">
+                    <form class="form" name="request" action="/game/search" method="post">
+                            <label class="label_search">Rechercher : </label>
+                            <input class="form-control" type="text" name="texte">
+
+                            <input class="check-input" type="checkbox" name="rechercheParTitre" id="flexCheckDefault">
+                            <label class="check-label" for="flexCheckDefault">Titre</label>
+                        
+                            <input class="check-input" type="checkbox" name="rechercheParGenre" id="flexCheckDefault2">
+                            <label class="check-label" for="flexCheckDefault2">Genre</label>
+                            
+                        <button class="btn_search" type="submit">Rechercher</button>
+                    </form>
+                </div> -->
+            </div>
+
+            <div class="card_game_commu">
+                <h2 class="txt_game_commu">Jeux de la communauté :</h2>
                 <div class="box_game">
                     <table class="table">
                         <thead>

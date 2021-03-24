@@ -1,0 +1,40 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<!doctype html>
+<html lang="fr">
+
+  <head>
+    <meta charset="utf-8">
+    <title>Upload profil pic</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/floating-labels.css}">
+    <link rel="stylesheet" th:href="@{/css/style-accueil.css}">
+  </head>
+
+  <body>
+  <!-- FORMULAIRE : -->
+
+    <form class="form-signin" enctype="multipart/form-data"  action="/file/upload/groupe" method="POST">
+
+      <img class="img" th:src="'/images/groupe/' + ${groupe.uuid} + '.jpg'" style="border-radius: 50%" width="100" height="100"/>
+
+  <div class="text-center mb-4">
+    <h1 class="h3 mb-3 font-weight-normal">Ajouter/changer votre photo de groupe</h1>
+  </div>
+
+  <div class="form-label-group">
+    <input type="hidden" class="form-control" name="request" th:value="${groupe.uuid}">
+  </div>
+  <div class="form-label-group">
+    <input id="inputImg" type="file" name="file">
+  </div>
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Envoyer</button>
+
+      <div class="alert alert-success" th:if="${message}" role="alert">
+        <h2 th:text="${message}"/>
+      </div>
+      <a type="button" class="btn btn-outline-primary center" th:href="'/groupe/accueil?id=' + ${groupe.uuid}">Retour sur ma page</a>
+</form>
+</body>
+</html>

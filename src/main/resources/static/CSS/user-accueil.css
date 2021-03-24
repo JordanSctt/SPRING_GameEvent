@@ -169,7 +169,7 @@ nav ul:first-child li img {
     height: 100%;
     margin: 30px 0;
 }
-.container_game .card_game {
+.container_game .card_game_commu {
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -183,6 +183,37 @@ nav ul:first-child li img {
     border-radius: 15px;
     margin: 20px 5px;
     padding: 20px 20px;
+}
+.txt_game_commu {
+    text-decoration: none;
+    color: #8d8d8d;
+    padding-bottom: 10px;
+    font-weight: 700;
+    font-size: 1.2em;
+    transition: all 0.2s ease-in-out;
+}
+.container_game .card_game_user {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    min-width: 900px;
+    height: 100%;
+    box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.2),
+                inset -5px -5px 15px rgba(255, 255, 255, 0.1),
+                5px 5px 15px rgba(0, 0, 0, 0.3),
+                -5px -5px 15px rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    margin: 20px 5px;
+    padding: 20px 20px;
+}
+.txt_game_user {
+    text-decoration: none;
+    color: #8d8d8d;
+    padding-bottom: 10px;
+    font-weight: 700;
+    font-size: 1.2em;
+    transition: all 0.2s ease-in-out;
 }
 .container .card_game .box_game {
     display: flex;
@@ -336,8 +367,15 @@ td {
                 inset 5px 5px 15px rgba(0, 0, 0, 0.5);
 }
 
+/* INFO USER GROUPE CARDS */
 
-/* CARD USER */
+.container_info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    background: #232427;
+}
 
 .btn_user {
     display: flex;
@@ -352,6 +390,7 @@ td {
     border: none;
     outline: none;
     color: #8d8d8d;
+    margin: 15px;
     padding: 8 18px;
     box-shadow: -5px -5px 10px rgba(255, 255, 255, 0.05),
                 5px 5px 15px rgba(0, 0, 0, 0.5);
@@ -367,6 +406,11 @@ td {
     border-radius: 50%;
     width: 100px;
     height: 100px;
+}
+.img_groupe {
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
 }
 
 /* BTN BOXS */

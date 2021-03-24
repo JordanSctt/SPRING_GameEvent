@@ -6,6 +6,7 @@ import fr.greta.java.game.domain.model.GameModel;
 import fr.greta.java.game.domain.wrapper.GameModelWrapper;
 import fr.greta.java.game.persistence.entity.GameEntity;
 import fr.greta.java.game.persistence.repository.GameRepository;
+import fr.greta.java.user.persistence.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,8 +27,9 @@ public class GameService {
 
 
     @Autowired
-    private GameRepository repository;
-
+    private GameRepository gameRepository;
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private GameModelWrapper wrapperModel;
 
@@ -66,13 +69,23 @@ public class GameService {
         Sort sort = Sort.by(sortDirection(), colonne.colonneEntity());
         Pageable of = PageRequest.of(page, NB_PAR_PAGE, sort);
         if (search.isEmpty()) {
-            return wrapperModel.fromEntities(repository.findAll(of));
+            return wrapperModel.fromEntitiesPage(gameRepository.findAll(of));
         }
         Specification<GameEntity> spec = Specification.where(null);
         for (GameColonne colonne: search.get().getColonnes()) {
             spec = spec.or(like(colonne, search.get().getTexte()));
         }
-        return wrapperModel.fromEntities(repository.findAll(spec, of));
+        return wrapperModel.fromEntitiesPage(gameRepository.findAll(spec, of));
+    }
+
+    /*public CustomList<GameModel, Integer> findAllGamesOfUserWithPage(int page, String userId) {
+        Sort sort = Sort.by(sortDirection(), colonne.colonneEntity());
+        Pageable of = PageRequest.of(page, NB_PAR_PAGE, sort);
+        return wrapperModel.fromEntities((Page<GameEntity>)gameRepository.findAllGamesByUserId(of, userId));
+    }*/
+
+    public List<GameModel> findAllGamesOfUser(String userId) {
+        return wrapperModel.fromEntities(gameRepository.findAllGamesOfUser(userId));
     }
 
     private Specification<GameEntity> like(GameColonne colonne, String value) {
@@ -80,18 +93,18 @@ public class GameService {
     }
 
     public GameModel findById(String id) {
-        return repository.findById(id)
+        return gameRepository.findById(id)
                 .map(entity -> wrapperModel.fromEntity(entity))
                 .orElse(null);
     }
 
     public GameModel save(GameModel model) {
         GameEntity entity = wrapperModel.toEntity(model);
-        repository.save(entity);
+        gameRepository.save(entity);
         return wrapperModel.fromEntity(entity);
     }
 
     public void delete(GameModel model) {
-        repository.delete(wrapperModel.toEntity(model));
+        gameRepository.delete(wrapperModel.toEntity(model));
     }
 }

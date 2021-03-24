@@ -1,75 +1,80 @@
 package fr.greta.java.groupe.facade;
 
 
-import fr.greta.java.config.generic.exception.ApplicationCommunicationException;
 import fr.greta.java.config.generic.exception.ApplicationServiceException;
 import fr.greta.java.game.CustomList;
 import fr.greta.java.game.domain.GameService;
 import fr.greta.java.game.domain.model.GameModel;
+import fr.greta.java.game.facade.dto.GameDTO;
 import fr.greta.java.game.facade.wrapper.GameDTOWrapper;
+import fr.greta.java.groupe.facade.dto.GroupeDTO;
 import fr.greta.java.groupe.facade.dto.NewGroupeRequestDTO;
+import fr.greta.java.groupe.facade.wrapper.GroupeDTOWrapper;
 import fr.greta.java.groupe.persistence.entity.GroupeEntity;
 import fr.greta.java.groupe.persistence.repository.GroupeRepository;
+import fr.greta.java.user.domain.service.UserService;
 import fr.greta.java.user.facade.dto.UserDTO;
 import fr.greta.java.user.facade.wrapper.UserDTOWrapper;
 import fr.greta.java.user.persistence.entity.UserEntity;
 import fr.greta.java.user.persistence.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping(value = "/groupe")
 public class GroupeController {
 
-    private static final String USER_ROLE = "USER";
 
     @Autowired
     private UserDTOWrapper userDTOWrapper;
     @Autowired
     private UserRepository userRepository;
     @Autowired
+    private UserService userService;
+    @Autowired
     private GroupeRepository groupeRepository;
     @Autowired
     private GameService gameService;
     @Autowired
-    private GameDTOWrapper wrapperDTO;
+    private GameDTOWrapper gameDTOWrapper;
+    @Autowired
+    private GroupeDTOWrapper groupeDTOWrapper;
 
 
-    @GetMapping("/accueil")
-    public ModelAndView groupeAccueil() {
-        return groupeAccueilWithPage(0);
-    }
-
-    @GetMapping("/accueil/page")
-    public ModelAndView groupeAccueilWithPage(@RequestParam int page) {
+    @GetMapping("/groupe/accueil")
+    public ModelAndView groupeAccueilWithPage(@RequestParam("id") String groupeUuid) throws ApplicationServiceException {
 
         ModelAndView modelAndView = new ModelAndView("groupe-accueil");
-
+        int page = 0;
         CustomList<GameModel, Integer> all = gameService.findAllGameByPage(page);
-        modelAndView.addObject("games", wrapperDTO.fromModels(all.getList()));
+        modelAndView.addObject("games", gameDTOWrapper.fromModels(all.getList()));
         modelAndView.addObject("currentPage", page);
         modelAndView.addObject("totalPage", all.getValue());
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String name = auth.getName();
-        UserDTO userDTO = userDTOWrapper.fromEntity(userRepository.findByLogin(name));
+        GroupeDTO groupeDTO = groupeDTOWrapper.fromEntity(groupeRepository.findById(groupeUuid));
+        modelAndView.addObject("groupe", groupeDTO);
+
+        UserDTO userDTO = userDTOWrapper.fromEntity(userRepository.findByLogin(userService.findUser().getLogin()));
         modelAndView.addObject("userConnected", userDTO);
 
         return modelAndView;
     }
 
-    @PostMapping("/new")
+    @PostMapping("/groupe/new")
     public ModelAndView saveNewGroupeWithUser(@ModelAttribute("request") NewGroupeRequestDTO nom) {
         try {
-            groupeRepository.save(new GroupeEntity(nom.getNom(), List.of(findUser())));
+            groupeRepository.save(new GroupeEntity(nom.getNom(), List.of(userService.findUser())));
         } catch (ApplicationServiceException e) {
             e.printStackTrace();
         }
@@ -77,21 +82,31 @@ public class GroupeController {
     }
 
     //----------------------------
-    private UserEntity findUser() throws ApplicationServiceException {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (isConnected(auth)) {
-            Optional<UserEntity> userEntity = userRepository.findByLogin(auth.getName());
-            if(userEntity.isPresent()){
-                return userEntity.get();
-            }
-            throw new ApplicationServiceException("User not found");
 
-        }
-        throw new ApplicationServiceException("User not connected");
+    @GetMapping("/file/upload/groupe")
+    public ModelAndView displayForm(@RequestParam("id") String groupeUuid) {
+
+        GroupeDTO groupeDTO = groupeDTOWrapper.fromEntity(groupeRepository.findById(groupeUuid));
+        ModelAndView modelAndView = new ModelAndView("upload-img-groupe");
+        modelAndView.addObject("groupe", groupeDTO);
+        return modelAndView;
     }
 
-    private boolean isConnected(Authentication auth) {
-        return auth.getAuthorities().contains(new SimpleGrantedAuthority(USER_ROLE));
+    @PostMapping("/file/upload/groupe")
+    public ModelAndView handleFileUploadUserProfil(@RequestParam("file") MultipartFile multipartFile, @ModelAttribute("request") String groupeUuidDTO) throws IOException {
+        ClassPathResource path = new ClassPathResource("static/images/groupe");
+
+        GroupeDTO myGroupeDTO = groupeDTOWrapper.fromEntity(groupeRepository.findById(groupeUuidDTO));
+        String pathStr = path.getFile().getAbsolutePath() +  "\\" + myGroupeDTO.getUuid() + ".jpg";
+        File destinationFile = new File(pathStr);
+        if(!destinationFile.exists()) {
+            destinationFile.createNewFile();
+        }
+        multipartFile.transferTo(destinationFile);
+        ModelAndView modelAndView = new ModelAndView("upload-img-groupe");
+        modelAndView.addObject("groupe", myGroupeDTO);
+        modelAndView.addObject("message", "L'upload de votre photo de groupe s'est éxecuté avec succés");
+        return modelAndView;
     }
 
 }

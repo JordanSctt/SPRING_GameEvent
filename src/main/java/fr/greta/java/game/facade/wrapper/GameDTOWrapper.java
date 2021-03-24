@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class GameDTOWrapper {
@@ -50,6 +51,14 @@ public class GameDTOWrapper {
         model.setTitre(dto.getTitre());
         model.setGenre(dto.getGenre());
         return model;
+    }
+
+    public GameEntity toEntity(GameDTO dto) {
+        GameEntity entity = new GameEntity();
+        entity.setId(dto.getId());
+        entity.setTitre(dto.getTitre());
+        entity.setGenre(dto.getGenre());
+        return entity;
     }
 
 }

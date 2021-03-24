@@ -2,13 +2,15 @@ package fr.greta.java.user.facade;
 
 
 import fr.greta.java.config.generic.exception.ApplicationCommunicationException;
+import fr.greta.java.config.generic.exception.ApplicationServiceException;
 import fr.greta.java.game.CustomList;
 import fr.greta.java.game.domain.GameService;
 import fr.greta.java.game.domain.model.GameModel;
-import fr.greta.java.game.facade.GameController;
+import fr.greta.java.game.facade.dto.GameDTO;
 import fr.greta.java.game.facade.wrapper.GameDTOWrapper;
 import fr.greta.java.groupe.domain.Wrapper.GroupeListDTOWrapper;
 import fr.greta.java.groupe.domain.service.GroupeService;
+import fr.greta.java.user.domain.service.UserService;
 import fr.greta.java.user.facade.dto.UserDTO;
 import fr.greta.java.user.facade.wrapper.UserDTOWrapper;
 import fr.greta.java.user.persistence.repository.UserRepository;
@@ -26,6 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -35,13 +38,13 @@ public class UserController {
     @Autowired
     private UserDTOWrapper userDTOWrapper;
     @Autowired
-    private GameController gameController;
-    @Autowired
     private GroupeListDTOWrapper listDTOWrapper;
     @Autowired
     private GroupeService groupeService;
     @Autowired
     private GameService gameService;
+    @Autowired
+    private UserService userService;
     @Autowired
     private GameDTOWrapper wrapperDTO;
 
@@ -70,23 +73,29 @@ public class UserController {
     }
 
     @GetMapping("/user/accueil")
-    public ModelAndView userAccueil() throws ApplicationCommunicationException {
+    public ModelAndView userAccueil() throws ApplicationCommunicationException, ApplicationServiceException {
         return userAccueilWithPage(0);
     }
 
     @GetMapping("/user/accueil/page")
-    public ModelAndView userAccueilWithPage(@RequestParam int page) throws ApplicationCommunicationException {
+    public ModelAndView userAccueilWithPage(@RequestParam int page) throws ApplicationCommunicationException, ApplicationServiceException {
 
         ModelAndView modelAndView = new ModelAndView("user-accueil");
 
-        CustomList<GameModel, Integer> all = gameService.findAllGameByPage(page);
-        modelAndView.addObject("games", wrapperDTO.fromModels(all.getList()));
+        CustomList<GameModel, Integer> allGames = gameService.findAllGameByPage(page);
+        modelAndView.addObject("games", wrapperDTO.fromModels(allGames.getList()));
         modelAndView.addObject("currentPage", page);
-        modelAndView.addObject("totalPage", all.getValue());
+        modelAndView.addObject("totalPage", allGames.getValue());
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String name = auth.getName();
-        UserDTO userDTO = userDTOWrapper.fromEntity(userRepository.findByLogin(name));
+        /*CustomList<GameModel, Integer> allGamesUser = gameService.findAllGamesOfUserWithPage(page, userService.findUser().getId());*/
+        List<GameModel> allGamesUser = gameService.findAllGamesOfUser(userService.findUser().getId());
+        modelAndView.addObject("gamesUser", wrapperDTO.fromModels(allGamesUser));
+        /*
+        modelAndView.addObject("currentPage", page);
+        modelAndView.addObject("totalPage", allGamesUser.getValue());
+         */
+
+        UserDTO userDTO = userDTOWrapper.fromEntity(userRepository.findByLogin(userService.findUser().getLogin()));
         modelAndView.addObject("userConnected", userDTO);
 
         modelAndView.addObject("groupes", listDTOWrapper.fromModels(groupeService.findAllByUserId(userDTO.getUuid())));
@@ -94,17 +103,17 @@ public class UserController {
         return modelAndView;
     }
 
-    @GetMapping("/file/upload")
+    @GetMapping("/file/upload/user")
     public ModelAndView displayForm() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String login = auth.getName();
         UserDTO userDTO = userDTOWrapper.fromEntity(userRepository.findByLogin(login));
-        ModelAndView modelAndView = new ModelAndView("upload-img");
+        ModelAndView modelAndView = new ModelAndView("upload-img-user");
         modelAndView.addObject("userConnected", userDTO);
         return modelAndView;
     }
 
-    @PostMapping("/file/upload")
+    @PostMapping("/file/upload/user")
     public ModelAndView handleFileUploadUserProfil(@RequestParam("file") MultipartFile multipartFile) throws IOException {
         ClassPathResource path = new ClassPathResource("static/images/profil");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -116,7 +125,7 @@ public class UserController {
             destinationFile.createNewFile();
         }
         multipartFile.transferTo(destinationFile);
-        ModelAndView modelAndView = new ModelAndView("upload-img");
+        ModelAndView modelAndView = new ModelAndView("upload-img-user");
         modelAndView.addObject("userConnected", userDTO);
         modelAndView.addObject("message", "L'upload de votre photo de profil s'est éxecuté avec succés");
         return modelAndView;

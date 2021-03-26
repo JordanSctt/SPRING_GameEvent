@@ -1,6 +1,7 @@
 package fr.greta.java.groupe.persistence.entity;
 
 import fr.greta.java.event.persistence.entity.EventEntity;
+import fr.greta.java.invitation.persistence.entity.InvitationEntity;
 import fr.greta.java.user.persistence.entity.UserEntity;
 import fr.greta.java.game.persistence.entity.GameEntity;
 import org.hibernate.annotations.GenericGenerator;
@@ -37,6 +38,9 @@ public class GroupeEntity {
 
     @OneToMany(mappedBy = "groupe")
     private List<EventEntity> events;
+
+    @OneToMany(mappedBy = "groupe")
+    private List<InvitationEntity> invitations;
 
     //------------------------------------------
 
@@ -87,5 +91,13 @@ public class GroupeEntity {
 
     public void setEvents(List<EventEntity> events) {
         this.events = events;
+    }
+
+    public List<InvitationEntity> getInvitations() {
+        return invitations;
+    }
+
+    public void setInvitations(List<InvitationEntity> invitations) {
+        this.invitations = invitations;
     }
 }

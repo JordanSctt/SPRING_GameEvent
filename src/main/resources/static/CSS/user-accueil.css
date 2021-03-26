@@ -88,6 +88,23 @@ nav ul:first-child li img {
     margin: 10px 5px;
     padding: 10px 10px;
 }
+.container .alert {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 380px;
+    height: 100%;
+    font-size: 0.8em;
+    color: #8d8d8d;
+    box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.2),
+                inset -5px -5px 15px rgba(255, 255, 255, 0.1),
+                5px 5px 15px rgba(0, 0, 0, 0.3),
+                -5px -5px 15px rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    margin: 10px 5px;
+    padding: 10px 10px;
+} 
 .container .card_groupe .box_groupe {
     display: flex;
     width: 360px;
@@ -406,6 +423,7 @@ td {
     border-radius: 50%;
     width: 100px;
     height: 100px;
+    cursor: pointer;
 }
 .img_groupe {
     border-radius: 50%;
@@ -532,4 +550,23 @@ td {
     color: #fea701;
     box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05),
                 inset 5px 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+
+/* DIALOG UPDATE IMG USER */
+
+.dialog {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 500px;
+    height: 500px;
+    box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.2),
+                inset -5px -5px 15px rgba(255, 255, 255, 0.1),
+                5px 5px 15px rgba(0, 0, 0, 0.3),
+                -5px -5px 15px rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    margin: 20px 5px;
+    padding: 20px 20px;
 }

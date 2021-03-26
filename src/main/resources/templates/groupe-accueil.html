@@ -54,10 +54,14 @@
             <div class="new_groupe">
                 <input id="toggle" type="checkbox">
                 <label class="btn_new_groupe" for="toggle">Ajouter un amis</label>       
-                    <form id="expand" name="request" action="/groupe/new" method="post">               
-                        <input id="expand" class="input_groupe" type="text" name="nom" required autofocus/>
+                    <form id="expand" name="request" action="/groupe/user/new" method="post">    
+                        <input type="hidden" class="form-control" name="uuid" th:value="${groupe.uuid}">           
+                        <input id="expand" class="input_groupe" type="text" name="login" required autofocus/>
                         <button class="btn_groupe" type="submit">Inviter</button>
                     </form>
+            </div>
+            <div class="alert" th:if="${messageInvitation}" role="alert">
+                <h2 th:text="${messageInvitation}"/>
             </div>
             <div class="card_groupe"> 
                 <div class="box_groupe" th:each="user : ${groupe.users}">

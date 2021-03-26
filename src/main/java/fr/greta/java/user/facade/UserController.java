@@ -6,7 +6,6 @@ import fr.greta.java.config.generic.exception.ApplicationServiceException;
 import fr.greta.java.game.CustomList;
 import fr.greta.java.game.domain.GameService;
 import fr.greta.java.game.domain.model.GameModel;
-import fr.greta.java.game.facade.dto.GameDTO;
 import fr.greta.java.game.facade.wrapper.GameDTOWrapper;
 import fr.greta.java.groupe.domain.Wrapper.GroupeListDTOWrapper;
 import fr.greta.java.groupe.domain.service.GroupeService;
@@ -16,8 +15,6 @@ import fr.greta.java.user.facade.wrapper.UserDTOWrapper;
 import fr.greta.java.user.persistence.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -28,7 +25,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 @Controller
 public class UserController {
@@ -87,14 +83,12 @@ public class UserController {
         modelAndView.addObject("currentPage", page);
         modelAndView.addObject("totalPage", allGames.getValue());
 
-        CustomList<GameModel, Integer> allGamesUser = gameService.findAllGamesOfUserWithPage(userService.findUser().getId(), page);
+        CustomList<GameModel, Integer> allGamesUser = gameService.findAllGamesOfUserWithPage(userService.findUserConnected().getId(), page);
         modelAndView.addObject("gamesUser", wrapperDTO.fromModels(allGamesUser.getList()));
-        /*
         modelAndView.addObject("currentPage", page);
         modelAndView.addObject("totalPageGameUser", allGamesUser.getValue());
-         */
 
-        UserDTO userDTO = userDTOWrapper.fromEntity(userRepository.findByLogin(userService.findUser().getLogin()));
+        UserDTO userDTO = userDTOWrapper.fromEntity(userRepository.findByLogin(userService.findUserConnected().getLogin()));
         modelAndView.addObject("userConnected", userDTO);
         modelAndView.addObject("groupes", listDTOWrapper.fromModels(groupeService.findAllByUserId(userDTO.getUuid())));
 
@@ -102,21 +96,17 @@ public class UserController {
     }
 
     @GetMapping("/file/upload/user")
-    public ModelAndView displayForm() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String login = auth.getName();
-        UserDTO userDTO = userDTOWrapper.fromEntity(userRepository.findByLogin(login));
+    public ModelAndView displayForm() throws ApplicationServiceException {
+        UserDTO userDTO = userDTOWrapper.fromEntity(userRepository.findByLogin(userService.findUserConnected().getLogin()));
         ModelAndView modelAndView = new ModelAndView("upload-img-user");
         modelAndView.addObject("userConnected", userDTO);
         return modelAndView;
     }
 
     @PostMapping("/file/upload/user")
-    public ModelAndView handleFileUploadUserProfil(@RequestParam("file") MultipartFile multipartFile) throws IOException {
+    public ModelAndView handleFileUploadUserProfil(@RequestParam("file") MultipartFile multipartFile) throws IOException, ApplicationServiceException {
         ClassPathResource path = new ClassPathResource("static/images/profil");
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String login = auth.getName();
-        UserDTO userDTO = userDTOWrapper.fromEntity(userRepository.findByLogin(login));
+        UserDTO userDTO = userDTOWrapper.fromEntity(userRepository.findByLogin(userService.findUserConnected().getLogin()));
         String pathStr = path.getFile().getAbsolutePath() +  "\\" + userDTO.getUuid() + ".jpg";
         File destinationFile = new File(pathStr);
         if(!destinationFile.exists()) {

@@ -55,7 +55,7 @@
 
         <div class="container_game">
             <div class="btn_user">
-                <a href="/file/upload/user" title="Changer de photo de profil">
+                <a href="/file/upload/user" title="Changer de photo de profil"> 
                     <img class="img" alt="Aucune photo de profil" th:src="'/images/profil/' + ${userConnected.uuid} + '.jpg'"/>
                 </a>
                 <span class="txt_btn_name" th:text="${userConnected.login}"></span>
@@ -67,8 +67,8 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col"><a class="txt_btn_table" >Titre</a></th> <!-- href="/game/tri?colonne=titre" -->
-                                <th scope="col"><a class="txt_btn_table" >Genre</a></th> <!-- href="/game/tri?colonne=genre" -->
+                                <th scope="col"><a class="txt_btn_table" href="/game/tri?colonne=titre">Titre</a></th> 
+                                <th scope="col"><a class="txt_btn_table" href="/game/tri?colonne=genre">Genre</a></th> 
                                 <div sec:authorize="hasAuthority('ADMIN')">
                                     <th scope="col">Actions</th>
                                 </div>
@@ -95,7 +95,7 @@
                         </tbody>
                     </table>
                 </div>
-                <!-- <nav class="nav_page">
+                <nav class="nav_page">
                     <ul>           
                         <li th:class="${currentPage eq 0}? 'page-item disabled' : 'page-item' "> 
                             <a th:if="${currentPage > 0}" th:href="'/user/accueil/page?page=' + (${currentPage } - 1)" >Previous</a> 
@@ -110,7 +110,7 @@
                         </li>
                     </ul>
                 </nav>
-                <div class="form_search">
+                <!-- <div class="form_search">
                     <form class="form" name="request" action="/game/search" method="post">
                             <label class="label_search">Rechercher : </label>
                             <input class="form-control" type="text" name="texte">
@@ -123,7 +123,7 @@
                             
                         <button class="btn_search" type="submit">Rechercher</button>
                     </form>
-                </div> -->
+                </div>  -->
             </div>
 
             <div class="card_game_commu">

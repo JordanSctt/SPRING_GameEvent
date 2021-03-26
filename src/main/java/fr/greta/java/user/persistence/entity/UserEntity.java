@@ -3,6 +3,7 @@ package fr.greta.java.user.persistence.entity;
 import fr.greta.java.event.persistence.entity.EventEntity;
 import fr.greta.java.game.persistence.entity.GameEntity;
 import fr.greta.java.groupe.persistence.entity.GroupeEntity;
+import fr.greta.java.invitation.persistence.entity.InvitationEntity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -42,6 +43,9 @@ public class UserEntity {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "game_id"))
     private List<GameEntity> games = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<InvitationEntity> invitations;
 
     //----------------------------
 
@@ -108,5 +112,13 @@ public class UserEntity {
 
     public void setGames(List<GameEntity> games) {
         this.games = games;
+    }
+
+    public List<InvitationEntity> getInvitations() {
+        return invitations;
+    }
+
+    public void setInvitations(List<InvitationEntity> invitations) {
+        this.invitations = invitations;
     }
 }

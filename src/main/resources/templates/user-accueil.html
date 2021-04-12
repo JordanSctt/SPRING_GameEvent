@@ -46,7 +46,7 @@
                 <div class="box_groupe" th:each="groupe : ${groupes}">
                     <img class="img_groupe" alt="Aucune photo de profil" th:src="'/images/groupe/' + ${groupe.uuid} + '.jpg'"/>
                         <a class="txt_btn" th:href="'/groupe/accueil?id=' + ${groupe.uuid}"> 
-                            <p class="txt_btn" th:text="${groupe.nom}"/> 
+                            <p class="txt_btn" th:text="${groupe.nom}"></p> 
                         </a> 
                         <i class="icon fa fa-bars"></i>
                 </div>

@@ -28,12 +28,12 @@ public class UserService {
 
     private static final String USER_ROLE = "USER";
 
-    public UserEntity findUserConnected() throws ApplicationServiceException {
+    public Optional<UserEntity> findUserConnected() throws ApplicationServiceException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (isConnected(auth)) {
             Optional<UserEntity> userEntity = userRepository.findByLogin(auth.getName());
             if(userEntity.isPresent()){
-                return userEntity.get();
+                return userEntity;
             }
             throw new ApplicationServiceException("User not found");
         }

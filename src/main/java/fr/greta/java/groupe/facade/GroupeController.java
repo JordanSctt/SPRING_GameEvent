@@ -66,7 +66,7 @@ public class GroupeController {
         GroupeDTO groupeDTO = groupeDTOWrapper.fromEntity(groupeRepository.findById(groupeUuid));
         modelAndView.addObject("groupe", groupeDTO);
 
-        UserDTO userDTO = userDTOWrapper.fromEntity(userRepository.findByLogin(userService.findUserConnected().getLogin()));
+        UserDTO userDTO = userDTOWrapper.fromEntity(userRepository.findByLogin(userService.findUserConnected().get().getLogin()));
         modelAndView.addObject("userConnected", userDTO);
 
         modelAndView.addObject("messageInvitation", message);
@@ -77,7 +77,7 @@ public class GroupeController {
     @PostMapping("/groupe/new")
     public ModelAndView saveNewGroupeWithUser(@ModelAttribute("request") NewGroupeRequestDTO nom) {
         try {
-            groupeRepository.save(new GroupeEntity(nom.getNom(), List.of(userService.findUserConnected())));
+            groupeRepository.save(new GroupeEntity(nom.getNom(), List.of(userService.findUserConnected().get())));
         } catch (ApplicationServiceException e) {
             e.printStackTrace();
         }

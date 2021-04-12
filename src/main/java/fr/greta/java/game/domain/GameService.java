@@ -100,13 +100,13 @@ public class GameService {
     }
 
     public void saveGameForUser(String id) throws ApplicationServiceException {
-        UserEntity user = userService.findUserConnected();
+        UserEntity user = userService.findUserConnected().get();
         user.getGames().add(wrapperDTO.toEntity(findGame(id)));
         userRepository.save(user);
     }
 
     public void deleteGameOfUser(String id) throws ApplicationServiceException {
-        UserEntity user = userService.findUserConnected();
+        UserEntity user = userService.findUserConnected().get();
         GameEntity game = wrapperDTO.toEntity(findGame(id));
         List<GameEntity> gameEntities = user.getGames();
         List<GameEntity> toRemove = new ArrayList<>();

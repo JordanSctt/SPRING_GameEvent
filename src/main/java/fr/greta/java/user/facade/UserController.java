@@ -83,12 +83,12 @@ public class UserController {
         modelAndView.addObject("currentPage", page);
         modelAndView.addObject("totalPage", allGames.getValue());
 
-        CustomList<GameModel, Integer> allGamesUser = gameService.findAllGamesOfUserWithPage(userService.findUserConnected().getId(), page);
+        CustomList<GameModel, Integer> allGamesUser = gameService.findAllGamesOfUserWithPage(userService.findUserConnected().get().getId(), page);
         modelAndView.addObject("gamesUser", wrapperDTO.fromModels(allGamesUser.getList()));
         modelAndView.addObject("currentPage", page);
         modelAndView.addObject("totalPageGameUser", allGamesUser.getValue());
 
-        UserDTO userDTO = userDTOWrapper.fromEntity(userRepository.findByLogin(userService.findUserConnected().getLogin()));
+        UserDTO userDTO = userDTOWrapper.fromEntity(userService.findUserConnected());
         modelAndView.addObject("userConnected", userDTO);
         modelAndView.addObject("groupes", listDTOWrapper.fromModels(groupeService.findAllByUserId(userDTO.getUuid())));
 
@@ -97,7 +97,7 @@ public class UserController {
 
     @GetMapping("/file/upload/user")
     public ModelAndView displayForm() throws ApplicationServiceException {
-        UserDTO userDTO = userDTOWrapper.fromEntity(userRepository.findByLogin(userService.findUserConnected().getLogin()));
+        UserDTO userDTO = userDTOWrapper.fromEntity(userRepository.findByLogin(userService.findUserConnected().get().getLogin()));
         ModelAndView modelAndView = new ModelAndView("upload-img-user");
         modelAndView.addObject("userConnected", userDTO);
         return modelAndView;
@@ -106,7 +106,7 @@ public class UserController {
     @PostMapping("/file/upload/user")
     public ModelAndView handleFileUploadUserProfil(@RequestParam("file") MultipartFile multipartFile) throws IOException, ApplicationServiceException {
         ClassPathResource path = new ClassPathResource("static/images/profil");
-        UserDTO userDTO = userDTOWrapper.fromEntity(userRepository.findByLogin(userService.findUserConnected().getLogin()));
+        UserDTO userDTO = userDTOWrapper.fromEntity(userRepository.findByLogin(userService.findUserConnected().get().getLogin()));
         String pathStr = path.getFile().getAbsolutePath() +  "\\" + userDTO.getUuid() + ".jpg";
         File destinationFile = new File(pathStr);
         if(!destinationFile.exists()) {

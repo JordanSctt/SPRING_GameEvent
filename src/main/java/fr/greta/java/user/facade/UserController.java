@@ -9,6 +9,11 @@ import fr.greta.java.game.domain.model.GameModel;
 import fr.greta.java.game.facade.wrapper.GameDTOWrapper;
 import fr.greta.java.groupe.domain.Wrapper.GroupeListDTOWrapper;
 import fr.greta.java.groupe.domain.service.GroupeService;
+import fr.greta.java.groupe.facade.dto.GroupeListDTO;
+import fr.greta.java.groupe.persistence.repository.GroupeRepository;
+import fr.greta.java.invitation.domain.service.InvitationService;
+import fr.greta.java.invitation.persistence.entity.InvitationEntity;
+import fr.greta.java.invitation.persistence.repository.InvitationRepository;
 import fr.greta.java.user.domain.service.UserService;
 import fr.greta.java.user.facade.dto.UserDTO;
 import fr.greta.java.user.facade.wrapper.UserDTOWrapper;
@@ -25,6 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -34,7 +40,7 @@ public class UserController {
     @Autowired
     private UserDTOWrapper userDTOWrapper;
     @Autowired
-    private GroupeListDTOWrapper listDTOWrapper;
+    private GroupeListDTOWrapper groupeListDTOWrapper;
     @Autowired
     private GroupeService groupeService;
     @Autowired
@@ -42,7 +48,11 @@ public class UserController {
     @Autowired
     private UserService userService;
     @Autowired
+    private InvitationService invitationService;
+    @Autowired
     private GameDTOWrapper wrapperDTO;
+    @Autowired
+    private InvitationRepository invitationRepository;
 
 
     @GetMapping("/accueil")
@@ -90,8 +100,18 @@ public class UserController {
 
         UserDTO userDTO = userDTOWrapper.fromEntity(userService.findUserConnected());
         modelAndView.addObject("userConnected", userDTO);
-        modelAndView.addObject("groupes", listDTOWrapper.fromModels(groupeService.findAllByUserId(userDTO.getUuid())));
+        modelAndView.addObject("groupes", groupeListDTOWrapper.fromModels(groupeService.findAllByUserId(userDTO.getUuid())));
 
+        return modelAndView;
+    }
+
+    @GetMapping("user/accueil/invitation")
+    public ModelAndView userInvitationGroupe() throws ApplicationServiceException, ApplicationCommunicationException {
+        ModelAndView modelAndView = new ModelAndView("user-invitation");
+        UserDTO userDTO = userDTOWrapper.fromEntity(userService.findUserConnected());
+        modelAndView.addObject("userConnected", userDTO);
+        List<GroupeListDTO> groupesWithInvitationsForUser = invitationService.findGroupesInvitation();
+        modelAndView.addObject("groupesInvitations", groupesWithInvitationsForUser);
         return modelAndView;
     }
 

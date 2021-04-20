@@ -1,0 +1,28 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec=" http://www.thymeleaf.org/extras/spring-security">
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>GameEvent - User Invitation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" th:href="@{/css/user-invitation.css}">
+</head>
+<body>
+    <div class="big-container">
+        <div class="btn_user">               
+            <img class="img" alt="Aucune photo de profil" th:src="'/images/profil/' + ${userConnected.uuid} + '.jpg'"/>                
+        <p class="txt_btn"><span class="txt_btn_name" th:text="${userConnected.login}"></span> voici les invitations pour rejoindre des groupes que vous avez reçu :</p>
+        </div>
+        <div class="container">
+            <div class="card_groupe"> 
+                <div class="box_groupe" th:each="groupe : ${groupesInvitations}">
+                    <img class="img_groupe" alt="Aucune photo de profil" th:src="'/images/groupe/' + ${groupe.uuid} + '.jpg'"/>                        
+                            <p class="txt_btn" th:text="${groupe.nom}"></p>
+                </div>
+            </div>
+        </div>
+    </div>    
+</body>
+</html>

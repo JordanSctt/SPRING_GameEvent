@@ -3,6 +3,8 @@ package fr.greta.java.groupe.domain.Wrapper;
 
 import fr.greta.java.config.generic.exception.ApplicationCommunicationException;
 import fr.greta.java.groupe.domain.model.GroupeModel;
+import fr.greta.java.groupe.facade.dto.GroupeDTO;
+import fr.greta.java.groupe.facade.dto.GroupeListDTO;
 import fr.greta.java.groupe.persistence.entity.GroupeEntity;
 import fr.greta.java.user.persistence.entity.UserEntity;
 import org.springframework.stereotype.Component;
@@ -31,5 +33,19 @@ public class GroupeModelWrapper {
         return model;
     }
 
+    public List<GroupeListDTO> fromEntitiesToDto(List<GroupeEntity> listGroupeEntity) throws ApplicationCommunicationException {
+        List<GroupeListDTO> groupesListDto = new ArrayList<>();
+        for (GroupeEntity entities : listGroupeEntity) {
+            groupesListDto.add(fromEntityToDto(entities));
+        }
+        return groupesListDto;
+    }
+
+    public GroupeListDTO fromEntityToDto(GroupeEntity entity) {
+        GroupeListDTO dto = new GroupeListDTO();
+        dto.setUuid(entity.getId());
+        dto.setNom(entity.getNom());
+        return dto;
+    }
 
 }

@@ -14,5 +14,6 @@ public interface GroupeRepository extends JpaRepository<GroupeEntity, String> {
     @Query("select g FROM GroupeEntity g LEFT JOIN FETCH g.users u where u.id = :userId")
     List<GroupeEntity> findAllByUserId(String userId);
 
+
 }
 

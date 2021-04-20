@@ -33,6 +33,7 @@ public class GroupeService {
         return groupeModelWrapper.fromEntities(groupeRepository.findAllByUserId(UserId));
     }
 
+
     public void inviteNewUserInGroupe(UserEntity userEntity, GroupeUuidDTO uuid)  {
         Optional<GroupeEntity> groupeEntity = groupeRepository.findById(uuid.getUuid());
             userService.sendInvitationToUser(userEntity, groupeEntity.get());

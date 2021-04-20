@@ -27,6 +27,9 @@ public class InvitationEntity {
     //--------------------------------
 
 
+    public InvitationEntity() {
+    }
+
     public InvitationEntity(UserEntity user, GroupeEntity groupe) {
         this.user = user;
         this.groupe = groupe;

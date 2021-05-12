@@ -4,10 +4,11 @@ import fr.greta.java.config.generic.exception.ApplicationServiceException;
 import fr.greta.java.groupe.domain.Wrapper.GroupeListDTOWrapper;
 import fr.greta.java.groupe.domain.Wrapper.GroupeModelWrapper;
 import fr.greta.java.groupe.facade.dto.GroupeListDTO;
+import fr.greta.java.groupe.persistence.entity.GroupeEntity;
 import fr.greta.java.invitation.persistence.entity.InvitationEntity;
+import fr.greta.java.invitation.persistence.repository.InvitationRepository;
 import fr.greta.java.user.domain.service.UserService;
 import fr.greta.java.user.persistence.entity.UserEntity;
-import fr.greta.java.user.persistence.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,17 +23,31 @@ public class InvitationService {
     @Autowired
     private UserService userService;
     @Autowired
+    private InvitationRepository invitationRepository;
+    @Autowired
     private GroupeModelWrapper groupeModelWrapper;
     @Autowired
     private GroupeListDTOWrapper groupeListDTOWrapper;
 
-    public List<GroupeListDTO> findGroupesInvitation() throws ApplicationServiceException {
-        Optional<UserEntity> userConnected = userService.findUserConnected();
-        List<InvitationEntity> listInvitations = userConnected.get().getInvitations();
+    public void sendInvitationToUser(UserEntity userEntity, GroupeEntity groupeEntity)  {
+        invitationRepository.save(new InvitationEntity(userEntity, groupeEntity));
+        /*if (userEntity.equals(findUserConnected())) {
+            groupeEntity.get().getUsers().add(userEntity);
+        }*/
+    }
+
+    public List<GroupeListDTO> findGroupesInvitations() throws ApplicationServiceException {
+        List<InvitationEntity> listInvitationsOfUser = findInvitationsUser();
         List<GroupeListDTO> groupeListDTOS = new ArrayList<>();
-        for (InvitationEntity invitation : listInvitations) {
+        for (InvitationEntity invitation : listInvitationsOfUser) {
             groupeListDTOS.add(groupeModelWrapper.fromEntityToDto(invitation.getGroupe()));
         }
         return groupeListDTOS;
+    }
+
+    public List<InvitationEntity> findInvitationsUser() throws ApplicationServiceException {
+        Optional<UserEntity> userConnected = userService.findUserConnected();
+        List<InvitationEntity> listInvitations = userConnected.get().getInvitations();
+        return listInvitations;
     }
 }

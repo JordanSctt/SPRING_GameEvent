@@ -7,6 +7,7 @@ import fr.greta.java.groupe.domain.model.GroupeModel;
 import fr.greta.java.groupe.facade.dto.GroupeUuidDTO;
 import fr.greta.java.groupe.persistence.entity.GroupeEntity;
 import fr.greta.java.groupe.persistence.repository.GroupeRepository;
+import fr.greta.java.invitation.domain.service.InvitationService;
 import fr.greta.java.user.domain.service.UserService;
 import fr.greta.java.user.facade.dto.SearchUserRequestDTO;
 import fr.greta.java.user.persistence.entity.UserEntity;
@@ -28,6 +29,8 @@ public class GroupeService {
     private UserRepository userRepository;
     @Autowired
     private UserService userService;
+    @Autowired
+    private InvitationService invitationService;
 
     public List<GroupeModel> findAllByUserId(String UserId) throws ApplicationCommunicationException {
         return groupeModelWrapper.fromEntities(groupeRepository.findAllByUserId(UserId));
@@ -36,6 +39,6 @@ public class GroupeService {
 
     public void inviteNewUserInGroupe(UserEntity userEntity, GroupeUuidDTO uuid)  {
         Optional<GroupeEntity> groupeEntity = groupeRepository.findById(uuid.getUuid());
-            userService.sendInvitationToUser(userEntity, groupeEntity.get());
+        invitationService.sendInvitationToUser(userEntity, groupeEntity.get());
     }
 }

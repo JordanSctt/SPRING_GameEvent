@@ -10,9 +10,7 @@ import fr.greta.java.game.facade.wrapper.GameDTOWrapper;
 import fr.greta.java.groupe.domain.Wrapper.GroupeListDTOWrapper;
 import fr.greta.java.groupe.domain.service.GroupeService;
 import fr.greta.java.groupe.facade.dto.GroupeListDTO;
-import fr.greta.java.groupe.persistence.repository.GroupeRepository;
 import fr.greta.java.invitation.domain.service.InvitationService;
-import fr.greta.java.invitation.persistence.entity.InvitationEntity;
 import fr.greta.java.invitation.persistence.repository.InvitationRepository;
 import fr.greta.java.user.domain.service.UserService;
 import fr.greta.java.user.facade.dto.UserDTO;
@@ -110,8 +108,8 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView("user-invitation");
         UserDTO userDTO = userDTOWrapper.fromEntity(userService.findUserConnected());
         modelAndView.addObject("userConnected", userDTO);
-        List<GroupeListDTO> groupesWithInvitationsForUser = invitationService.findGroupesInvitation();
-        modelAndView.addObject("groupesInvitations", groupesWithInvitationsForUser);
+        List<GroupeListDTO> groupesInvitationsForUser = invitationService.findGroupesInvitations();
+        modelAndView.addObject("groupesInvitations", groupesInvitationsForUser);
         return modelAndView;
     }
 

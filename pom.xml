@@ -12,7 +12,7 @@
 	<artifactId>videoGame</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>videoGame</name>
-	<description>Crud video games project for Spring Boot</description>
+	<description>GameEvent project - Spring Boot</description>
 
 	<properties>
 		<java.version>11</java.version>

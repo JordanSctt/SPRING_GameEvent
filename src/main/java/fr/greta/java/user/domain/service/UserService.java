@@ -21,10 +21,7 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private GroupeRepository groupeRepository;
-    @Autowired
-    private InvitationRepository invitationRepository;
+
 
     private static final String USER_ROLE = "USER";
 
@@ -44,10 +41,4 @@ public class UserService {
         return auth.getAuthorities().contains(new SimpleGrantedAuthority(USER_ROLE));
     }
 
-    public void sendInvitationToUser(UserEntity userEntity, GroupeEntity groupeEntity)  {
-        invitationRepository.save(new InvitationEntity(userEntity, groupeEntity));
-        /*if (userEntity.equals(findUserConnected())) {
-            groupeEntity.get().getUsers().add(userEntity);
-        }*/
-    }
 }

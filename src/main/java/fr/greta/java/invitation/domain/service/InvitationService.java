@@ -29,11 +29,11 @@ public class InvitationService {
     @Autowired
     private GroupeListDTOWrapper groupeListDTOWrapper;
 
-    public void sendInvitationToUser(UserEntity userEntity, GroupeEntity groupeEntity)  {
-        invitationRepository.save(new InvitationEntity(userEntity, groupeEntity));
-        /*if (userEntity.equals(findUserConnected())) {
-            groupeEntity.get().getUsers().add(userEntity);
-        }*/
+    public void sendInvitationToUser(UserEntity userEntity, GroupeEntity groupeEntity) {
+        Optional<InvitationEntity> invitation = invitationRepository.findByUserIdAndGroupeId(userEntity.getId(), groupeEntity.getId());
+        if (invitation.isEmpty()) {
+            invitationRepository.save(new InvitationEntity(userEntity, groupeEntity));
+        }
     }
 
     public List<GroupeListDTO> findGroupesInvitations() throws ApplicationServiceException {

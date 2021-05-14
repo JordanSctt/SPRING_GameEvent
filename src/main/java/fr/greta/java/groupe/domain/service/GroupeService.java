@@ -36,9 +36,19 @@ public class GroupeService {
         return groupeModelWrapper.fromEntities(groupeRepository.findAllByUserId(UserId));
     }
 
-
     public void inviteNewUserInGroupe(UserEntity userEntity, GroupeUuidDTO uuid)  {
         Optional<GroupeEntity> groupeEntity = groupeRepository.findById(uuid.getUuid());
         invitationService.sendInvitationToUser(userEntity, groupeEntity.get());
     }
+
+    public void addUserInGroupe(GroupeUuidDTO uuid) throws ApplicationServiceException {
+        Optional<GroupeEntity> groupeEntity = groupeRepository.findById(uuid.getUuid());
+        Optional<UserEntity> userConnected = userService.findUserConnected();
+
+        groupeEntity.get().getUsers().add(userConnected.get());
+        groupeRepository.save(groupeEntity.get());
+        invitationService.deleteInvitation(uuid);
+    }
 }
+
+

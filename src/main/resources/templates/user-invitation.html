@@ -20,7 +20,18 @@
                 <div class="box_groupe" th:each="groupe : ${groupesInvitations}">
                     <img class="img_groupe" alt="Aucune photo de profil" th:src="'/images/groupe/' + ${groupe.uuid} + '.jpg'"/>                        
                             <p class="txt_btn" th:text="${groupe.nom}"></p>
+
+                            <form name="request" action="/groupe/user/invitation/accept" method="post">    
+                                <input type="hidden" class="form-control" name="uuid" th:value="${groupe.uuid}">           
+                                <input class="btn_response" type="submit" value="Accepter">
+                            </form>
+                            <form name="request" action="/groupe/user/invitation/refuse" method="post">    
+                                <input type="hidden" class="form-control" name="uuid" th:value="${groupe.uuid}">
+                                <input class="btn_response" type="submit" value="Refuser">
+                            </form>    
+
                 </div>
+                <a type="button" class="btn_retour" href="/user/accueil">Retour</a>
             </div>
         </div>
     </div>    

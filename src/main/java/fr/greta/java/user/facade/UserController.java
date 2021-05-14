@@ -104,7 +104,7 @@ public class UserController {
     }
 
     @GetMapping("user/accueil/invitation")
-    public ModelAndView userInvitationGroupe() throws ApplicationServiceException, ApplicationCommunicationException {
+    public ModelAndView userInvitationGroupe() throws ApplicationServiceException {
         ModelAndView modelAndView = new ModelAndView("user-invitation");
         UserDTO userDTO = userDTOWrapper.fromEntity(userService.findUserConnected());
         modelAndView.addObject("userConnected", userDTO);

@@ -4,7 +4,9 @@ import fr.greta.java.config.generic.exception.ApplicationServiceException;
 import fr.greta.java.groupe.domain.Wrapper.GroupeListDTOWrapper;
 import fr.greta.java.groupe.domain.Wrapper.GroupeModelWrapper;
 import fr.greta.java.groupe.facade.dto.GroupeListDTO;
+import fr.greta.java.groupe.facade.dto.GroupeUuidDTO;
 import fr.greta.java.groupe.persistence.entity.GroupeEntity;
+import fr.greta.java.groupe.persistence.repository.GroupeRepository;
 import fr.greta.java.invitation.persistence.entity.InvitationEntity;
 import fr.greta.java.invitation.persistence.repository.InvitationRepository;
 import fr.greta.java.user.domain.service.UserService;
@@ -22,6 +24,8 @@ public class InvitationService {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private GroupeRepository groupeRepository;
     @Autowired
     private InvitationRepository invitationRepository;
     @Autowired
@@ -49,5 +53,12 @@ public class InvitationService {
         Optional<UserEntity> userConnected = userService.findUserConnected();
         List<InvitationEntity> listInvitations = userConnected.get().getInvitations();
         return listInvitations;
+    }
+
+    public void deleteInvitation(GroupeUuidDTO uuid) throws ApplicationServiceException {
+        Optional<UserEntity> userConnected = userService.findUserConnected();
+        Optional<GroupeEntity> groupeEntity = groupeRepository.findById(uuid.getUuid());
+        Optional<InvitationEntity> invitation = invitationRepository.findByUserIdAndGroupeId(userConnected.get().getId(), groupeEntity.get().getId());
+        invitationRepository.delete(invitation.get());
     }
 }

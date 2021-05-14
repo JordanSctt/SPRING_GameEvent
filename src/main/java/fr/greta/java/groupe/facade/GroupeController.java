@@ -13,6 +13,7 @@ import fr.greta.java.groupe.facade.dto.NewGroupeRequestDTO;
 import fr.greta.java.groupe.facade.wrapper.GroupeDTOWrapper;
 import fr.greta.java.groupe.persistence.entity.GroupeEntity;
 import fr.greta.java.groupe.persistence.repository.GroupeRepository;
+import fr.greta.java.invitation.domain.service.InvitationService;
 import fr.greta.java.user.domain.service.UserService;
 import fr.greta.java.user.facade.dto.SearchUserRequestDTO;
 import fr.greta.java.user.facade.dto.UserDTO;
@@ -43,6 +44,8 @@ public class GroupeController {
     private UserService userService;
     @Autowired
     private GroupeService groupeService;
+    @Autowired
+    private InvitationService invitationService;
     @Autowired
     private GroupeRepository groupeRepository;
     @Autowired
@@ -95,6 +98,18 @@ public class GroupeController {
             alertInvitation = "L'utilisateur n'existe pas !";
         }
         return groupeAccueil(uuid.getUuid(), alertInvitation);
+    }
+
+    @PostMapping("/groupe/user/invitation/accept")
+    public ModelAndView invitationUserGroupeAccept(@ModelAttribute("request") GroupeUuidDTO uuid) throws ApplicationServiceException {
+        groupeService.addUserInGroupe(uuid);
+        return new ModelAndView("redirect:/user/accueil/invitation");
+    }
+
+    @PostMapping("/groupe/user/invitation/refuse")
+    public ModelAndView invitationUserGroupeRefuse(@ModelAttribute("request") GroupeUuidDTO uuid) throws ApplicationServiceException {
+        invitationService.deleteInvitation(uuid);
+        return new ModelAndView("redirect:/user/accueil/invitation");
     }
 
     //----------------------------

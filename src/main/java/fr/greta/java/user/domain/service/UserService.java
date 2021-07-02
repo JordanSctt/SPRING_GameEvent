@@ -2,10 +2,6 @@ package fr.greta.java.user.domain.service;
 
 
 import fr.greta.java.config.generic.exception.ApplicationServiceException;
-import fr.greta.java.groupe.persistence.entity.GroupeEntity;
-import fr.greta.java.groupe.persistence.repository.GroupeRepository;
-import fr.greta.java.invitation.persistence.entity.InvitationEntity;
-import fr.greta.java.invitation.persistence.repository.InvitationRepository;
 import fr.greta.java.user.persistence.entity.UserEntity;
 import fr.greta.java.user.persistence.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -175,6 +175,28 @@ nav ul:first-child li img {
     color: #fea701;
 }
 
+.btn_new_event {
+    text-decoration: none;
+    text-align: center;
+    min-width: 80%;
+    font-size: 18px;
+    font-weight: 600;
+    background: #232427;
+    border-radius: 27px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: #8d8d8d;
+    padding: 8 18px;
+    box-shadow: -5px -5px 10px rgba(255, 255, 255, 0.05),
+                5px 5px 15px rgba(0, 0, 0, 0.5);
+}
+.btn_new_event:active {
+    color: #fea701;
+    box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.05),
+                inset 5px 5px 15px rgba(0, 0, 0, 0.5);
+}
+
 /* GAME CARDS */
 
 .container_game {
@@ -553,13 +575,26 @@ td {
 }
 
 
-/* DIALOG UPDATE IMG USER */
+/* DIALOG UPDATE IMG USER (TODO: CSS don't work on jQuery css) */
+
+.ui-dialog {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    background: #232427;
+    color: #8d8d8d;
+    border: 1px solid #8d8d8d;
+    top: 50px;
+}
 
 .dialog {
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
+    background: #232427;
+    color: #8d8d8d;
     width: 500px;
     height: 500px;
     box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.2),

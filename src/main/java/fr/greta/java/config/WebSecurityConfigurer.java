@@ -24,7 +24,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth
+                auth
                 .userDetailsService(userDetailsService)
                 .passwordEncoder(bCryptPasswordEncoder);
     }
@@ -39,6 +39,10 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .antMatchers("/file/upload/groupe")
                 .authenticated()
                 .antMatchers("/file/upload/user")
+                .authenticated()
+                .antMatchers("/user/accueil/invitation")
+                .authenticated()
+                .antMatchers("/groupe/**")
                 .authenticated()
                 .antMatchers("/game/admin/**")
                 .hasAuthority("ADMIN")

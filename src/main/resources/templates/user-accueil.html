@@ -21,12 +21,6 @@
                 <li>
                     <a href="/user/accueil/invitation" class="gry_btn">Voir mes invitations</a>
                 </li>
-                <li>
-                    <a href="/login" class="gry_btn">Connection</a>
-                </li>
-                <li>
-                    <a href="/Signin" class="gry_btn">Inscription</a>
-                </li>
                 <li sec:authorize="isAuthenticated()">
                     <form th:action="@{/logout}" method="get">
                         <a href="/accueil" class="gry_btn">Déconnection</a>

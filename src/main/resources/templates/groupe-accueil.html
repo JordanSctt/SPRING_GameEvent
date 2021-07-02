@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <title>GameEvent - Groupe accueil</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
     <link rel="stylesheet" th:href="@{/css/user-accueil.css}">
 </head>
 <body>
@@ -20,12 +21,6 @@
             <ul>
                 <li>
                     <a href="/user/accueil" class="gry_btn">Revenir à ma page utilisateur</a>
-                </li>
-                <li>
-                    <a href="/login" class="gry_btn">Connection</a>
-                </li>
-                <li>
-                    <a href="/Signin" class="gry_btn">Inscription</a>
                 </li>
                 <li sec:authorize="isAuthenticated()">
                     <form th:action="@{/logout}" method="get">
@@ -50,6 +45,30 @@
         </div>    
 
     <div class="big-container">
+
+
+        <div class="dialog" id="dialog_event" title="Basic dialog">
+            <form action="" method="POST">
+                <h1>Créer un event (plannifier une partie de jeu)</h1>
+                <input type="hidden" name="groupeId" th:value="${groupe.uuid}">
+                <input type="hidden" name="userId" th:value="${userConnected.uuid}">
+                <div class="form-item">
+                    <label for="titre">Titre de votre Event</label>
+                    <input type="text" id="titre" name="titre" required>
+                </div>
+                <div class="form-item">
+                    <label for="description">Description de votre Event</label>
+                    <input type="text" id="description" name="description" required>
+                </div>
+                <div class="form-item">
+                    <label for="date">Date et heure de votre Event</label>
+                    <input type="datetime-local" id="date" name="date" required>
+                </div>
+                <button class="btn_new_event" type="submit">Envoyer</button>
+            </form>
+        </div>
+
+
         <div class="container">
             <div class="new_groupe">
                 <input id="toggle" type="checkbox">
@@ -65,7 +84,7 @@
             </div>
             <div class="card_groupe"> 
                 <div class="box_groupe" th:each="user : ${groupe.users}">
-                    <img class="img_groupe" alt="Aucune photo de profil" th:src="'/images/profil/' + ${userConnected.uuid} + '.jpg'"/> 
+                    <img class="img_groupe" alt="Aucune photo de profil" th:src="'/images/profil/' + ${user.uuid} + '.jpg'"/> 
                             <p class="txt_btn" th:text="${user.login}"/>   
                         <i class="icon fa fa-bars"></i>
                 </div>
@@ -92,10 +111,10 @@
                                 <td th:text="${game.genre}" />
             
                                 <td>
-                                    <div><a type="button" class="txt_btn_table"
-                                        th:href="'/game/add?id=' + ${game.id}">ajouter aux jeux du groupe</a></div>
-                                    <div><a type="button" class="txt_btn_table"
-                                        th:href="'/game/newEvent?id=' + ${game.id}">Créer un event pour ce jeux</a></div>
+                                    <!-- <div><a type="button" class="txt_btn_table"
+                                        th:href="'/game/add?id=' + ${game.id}">ajouter aux jeux du groupe</a></div> -->
+                                    <div><a type="button" id="opener" class="txt_btn_table">Créer un event pour ce jeux</a></div> <!-- th:href="'/game/newEvent?id=' + ${game.id}" -->
+
                                     <!-- <div sec:authorize="hasAuthority('ADMIN')"><a type="button" class="txt_btn_table"
                                             th:href="'/game/admin/edit?id=' + ${game.id}">éditer</a></div>
                                     <div sec:authorize="hasAuthority('ADMIN')"><a type="button" class="txt_btn_table"
@@ -137,6 +156,7 @@
             </div>
         </div>
         <div class="container">
+            <!-- <div><button class="btn_new_event">Créer un Event</button></div> -->
             <div class="card_event">
                 <div class="box_event">
                     <div class="content">
@@ -156,6 +176,9 @@
         </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.13.0/Sortable.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="/js/user-accueil.js"></script>  
+    <script src="/js/groupe-accueil.js"></script> 
 </body>
 </html>

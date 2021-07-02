@@ -71,7 +71,6 @@ public class GroupeController {
 
         UserDTO userDTO = userDTOWrapper.fromEntity(userRepository.findByLogin(userService.findUserConnected().get().getLogin()));
         modelAndView.addObject("userConnected", userDTO);
-
         modelAndView.addObject("messageInvitation", message);
 
         return modelAndView;

@@ -1,6 +1,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec=" http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -22,11 +22,6 @@
             </li>
             <li>
                 <a href="/Signin" class="gry_btn">Inscription</a>
-            </li>
-            <li sec:authorize="isAuthenticated()">
-                <form th:action="@{/logout}" method="get">
-                    <a href="/login" class="gry_btn">Déconnection</a>
-                </form>
             </li>
         </ul>
     </nav>
